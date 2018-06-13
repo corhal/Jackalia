@@ -27,7 +27,8 @@ public class ContextButtonsOverlay : MonoBehaviour {
 		ContextButtonObjects.Clear ();
 		HeaderText.text = selectable.Name + " lvl " + selectable.Level;
 
-		foreach (var action in selectable.Actions) {			
+		foreach (var action in selectable.Actions) {	
+			Debug.Log (action.Name);
 			GameObject contextButtonObject = Instantiate (ContextButtonPrefab) as GameObject;
 
 			ContextButton contextButton = contextButtonObject.GetComponent<ContextButton> ();

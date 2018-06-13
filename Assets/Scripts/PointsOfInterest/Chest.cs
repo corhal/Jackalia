@@ -31,7 +31,6 @@ public class Chest : PointOfInterest {
 		PlayerShip playerShip = GameManager.Instance.PlayerShip;
 		if (Player.Instance.RewardChests.Count < playerShip.RewardChestsCapacity) {			
 			Interact ();
-			UIOverlay.Instance.FlyReward (GetComponentInChildren<SpriteRenderer> ().sprite, transform, UIOverlay.Instance.ChestsLabel.gameObject /*UIOverlay.Instance.ChestButtons [0].gameObject*/);
 			playerShip.TakeChestReward (RewardChest);
 			gameObject.SetActive (false);
 		}

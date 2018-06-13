@@ -7,7 +7,7 @@ public class Selectable : MonoBehaviour {
 	public bool IsAvailable = true;
 
 	protected List<Action> actions;
-	public List<Action> Actions { get { return actions; } }
+	public List<Action> Actions {  get { return actions; } }
 	public List<string> StatNames;
 
 	public string Name;
@@ -28,16 +28,17 @@ public class Selectable : MonoBehaviour {
 	SpriteRenderer mySprite;
 	Color initialColor;
 
+
 	protected virtual void Awake () {
-		
+		Debug.Log ("farm awake as selectable");
 		actions = new List<Action> ();
 		gameManager = GameManager.Instance;
 		uiManager = UIOverlay.Instance;
 		player = Player.Instance;
-		Action infoAction = new Action("Info", 0, player.DataBase.ActionIconsByNames["Info"], ShowInfo);
-		Action moveAction = new Action("Move", 0, player.DataBase.ActionIconsByNames["Info"], MoveShipHere);
+		Action infoAction = new Action ("Info", 0, player.DataBase.ActionIconsByNames ["Info"], ShowInfo);
+		//Action moveAction = new Action("Move", 0, player.DataBase.ActionIconsByNames["Info"], MoveShipHere);
 		actions.Add (infoAction);
-		actions.Add (moveAction);
+		//actions.Add (moveAction);
 	}
 
 	public void RemoveActionByName (string actionName) {
@@ -91,6 +92,9 @@ public class Selectable : MonoBehaviour {
 
 	void OnMouseUp () {
 		Invoke ("RealClick", 0.1f);
+		if (!Player.Instance.OnAdventure) {
+			uiManager.OpenContextButtons (this);
+		}
 	}
 
 	void RealClick () {

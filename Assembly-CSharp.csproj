@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{7F532A3F-06DA-56D9-588C-60907172EAAF}</ProjectGuid>
+    <ProjectGuid>{9DC96C33-03B5-8A3B-BB08-22AE5BD33D90}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -113,6 +113,7 @@
      <Compile Include="Assets\Scripts\CSVReader.cs" />
      <Compile Include="Assets\Scripts\DataBase.cs" />
      <Compile Include="Assets\Scripts\DragController.cs" />
+     <Compile Include="Assets\Scripts\Farm.cs" />
      <Compile Include="Assets\Scripts\FlagPost.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Item.cs" />
@@ -141,23 +142,14 @@
      <Compile Include="Assets\Scripts\UI\Elements\ShipSkillButton.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\SkillElement.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\AdventureSelectionWindow.cs" />
-     <Compile Include="Assets\Scripts\UI\Windows\ChestOpenTooltip.cs" />
-     <Compile Include="Assets\Scripts\UI\Windows\ChestsWindow.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\ContextButtonsOverlay.cs" />
-     <Compile Include="Assets\Scripts\UI\Windows\CurrentTeamShower.cs" />
-     <Compile Include="Assets\Scripts\UI\Windows\HealPopUp.cs" />
-     <Compile Include="Assets\Scripts\UI\Windows\HeroCatalog.cs" />
-     <Compile Include="Assets\Scripts\UI\Windows\HeroPopup.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\ImagesPopUp.cs" />
-     <Compile Include="Assets\Scripts\UI\Windows\InfoWindow.cs" />
-     <Compile Include="Assets\Scripts\UI\Windows\MissionWindow.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\ModalPopUp.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\PopUp.cs" />
-     <Compile Include="Assets\Scripts\UI\Windows\TeamSelectionWindow.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\UIOverlay.cs" />
      <Compile Include="Assets\Scripts\Utility.cs" />
  <Reference Include="Facebook.Unity.Settings">
- <HintPath>C:/Users/a.panfilov/Desktop/cr-calc/Trade-ships/Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
+ <HintPath>C:/Users/a.panfilov/Desktop/cr-calc/Jackalia/Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

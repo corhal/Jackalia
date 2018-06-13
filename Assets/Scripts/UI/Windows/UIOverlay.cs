@@ -12,9 +12,7 @@ public class UIOverlay : MonoBehaviour {
 	public Text EnergyLabel;
 	public Text GemsLabel;
 	public Text TimeLabel;
-	public Text ChestsLabel;
-	public Text SecondaryChestTimer;
-	public GameObject ChestsActivityMarker;
+
 	public Text LevelLabel;
 	public Text ExpLabel;
 	public Slider ExpSlider;
@@ -25,19 +23,11 @@ public class UIOverlay : MonoBehaviour {
 	public List<GameObject> HideInAdventureObjects;
 	public List<GameObject> HideOffAdventureObjects;
 
-	public TeamSelectionWindow MyTeamSelectionWindow;
-	public InfoWindow MyInfoWindow;
-	public HeroPopup MyShipWindow;
-	public MissionWindow MyMissionWindow;
 	public ContextButtonsOverlay MyButtonsOverlay;
 	public PopUp MyPopUp;
 	public ImagesPopUp MyImagesPopUp;
-	public HeroCatalog MyShipsCatalogWindow;
-	public CurrentTeamShower CurrentTeamShower;
 	public AdventureSelectionWindow AdventureSelectionWindow;
-	public ChestOpenTooltip ChestOpenTooltip;
-	public HealPopUp HealPopUp;
-	public ChestsWindow ChestsWindow;
+
 
 	public GameObject MapNode;
 
@@ -46,68 +36,6 @@ public class UIOverlay : MonoBehaviour {
 			Instance = this;
 		} else if (Instance != this) {
 			Destroy (gameObject);  
-		}
-	}
-
-	public List<ChestButton> ChestButtons;
-
-	/*public List<GameObject> ShipRewardChestImages;
-	public List<GameObject> ShipRewardChestTexts;*/
-
-	public void UpdateShipRewardChests (RewardChest rewardChest) {
-		for (int i = 0; i < ChestButtons.Count; i++) {
-			if (ChestButtons [i].RewardChest == null) { // TODO
-				ChestButtons[i].ReceiveChest(rewardChest);
-				break;
-			}
-		}
-		if (rewardChest.ChestState == ChestState.Opening) {
-			int index = Player.Instance.RewardChests.IndexOf (rewardChest);
-			ChestButtons [index].IsBeingOpenedState ();
-			for (int i = 0; i < ChestButtons.Count; i++) {
-				if (i != index && ChestButtons[i].RewardChest != null && ChestButtons[i].RewardChest.ChestState != ChestState.Open) {
-					ChestButtons [i].AnotherChestIsBeingOpenedState ();
-				}
-			}
-		}
-	}
-
-	public void BeginChestOpen (int index) {
-		if (Player.Instance.CurrentlyOpeningChest != null && Player.Instance.CurrentlyOpeningChest.ChestState == ChestState.Opening && Player.Instance.CurrentlyOpeningChest == ChestButtons [index].RewardChest) {
-			OpenChestOpenTooltip (Player.Instance.CurrentlyOpeningChest);
-			return;
-		}
-		if (Player.Instance.CurrentlyOpeningChest != null && Player.Instance.CurrentlyOpeningChest.ChestState == ChestState.Opening && Player.Instance.CurrentlyOpeningChest != ChestButtons [index].RewardChest) {
-			// OpenChestOpenTooltip (ChestButtons [index].RewardChest);
-			return;
-		}
-		if (Player.Instance.CurrentlyOpeningChest != null && Player.Instance.CurrentlyOpeningChest.ChestState == ChestState.Open && Player.Instance.CurrentlyOpeningChest == ChestButtons [index].RewardChest) {
-			Player.Instance.ReceiveChestReward (ChestButtons [index].RewardChest);
-			ChestButtons [index].EmptyState ();
-			ChestButtons [index].RewardChest = null;
-			Player.Instance.CurrentlyOpeningChest = null;
-			return;
-		}
-		ChestButtons [index].IsBeingOpenedState ();
-		for (int i = 0; i < ChestButtons.Count; i++) {
-			if (i != index && ChestButtons[i].RewardChest != null && ChestButtons[i].RewardChest.ChestState != ChestState.Open) {
-				ChestButtons [i].AnotherChestIsBeingOpenedState ();
-			}
-		}
-		Player.Instance.BeginChestOpen (ChestButtons [index].RewardChest);
-	}
-
-	public void FinishChestOpen (RewardChest rewardChest) {
-		if (ChestOpenTooltip.Window.activeSelf) {
-			ChestOpenTooltip.CloseLockpicks ();
-			ChestOpenTooltip.Close ();
-		}
-		foreach (var chestButton in ChestButtons) {
-			if (chestButton.RewardChest == rewardChest) {
-				chestButton.ReadyToOpenState ();
-			} else if (chestButton.RewardChest != null && chestButton.RewardChest.ChestState != ChestState.Open) {
-				chestButton.TouchToOpenState ();
-			}
 		}
 	}
 
@@ -134,12 +62,6 @@ public class UIOverlay : MonoBehaviour {
 		flyReward = true;
 	}
 
-	public void OpenChestNow (RewardChest rewardChest) {
-		ChestOpenTooltip.Close ();
-
-		rewardChest.Open ();
-	}
-
 	void Start () {
 		player = Player.Instance;
 		if (player.OnAdventure) {
@@ -163,14 +85,12 @@ public class UIOverlay : MonoBehaviour {
 				hideObject.SetActive (false);
 			}
 		}
-		CurrentTeamShower.Open ();
 	}
 
 	void Update () { // OMG
 		GoldLabel.text = "" + player.Gold;
 		GemsLabel.text = "" + player.Inventory ["Gems"];
 		EnergyLabel.text = "" + player.Energy + "/" + player.MaxEnergy;
-		ChestsLabel.text = "" + player.RewardChests.Count + "/" + 4; // PlayerShip.Instance.RewardChestsCapacity; // player.Inventory ["Key"];
 		ExpLabel.text = "" + player.Inventory ["Exp"] + "/" + player.ExpForLevel [player.Level];
 		LevelLabel.text = "" + player.Level;
 		ExpSlider.maxValue = player.ExpForLevel [player.Level];
@@ -193,17 +113,6 @@ public class UIOverlay : MonoBehaviour {
 				flyReward = false;
 				Destroy (flyingReward);				
 			}
-		}
-
-		if (player.CurrentlyOpeningChest != null) {
-			SecondaryChestTimer.text = Utility.SecondsToTime (player.CurrentlyOpeningChest.SecondsLeft);
-			if (player.CurrentlyOpeningChest.SecondsLeft <= 0.0f) {
-				ChestsActivityMarker.SetActive (true);
-			} else {
-				ChestsActivityMarker.SetActive (false);
-			}
-		} else if (player.RewardChests.Count > 0) {
-			ChestsActivityMarker.SetActive (true);
 		}
 	}
 
@@ -233,27 +142,10 @@ public class UIOverlay : MonoBehaviour {
 		AdventureImage.sprite = AdventureSprites [Player.Instance.Adventures.IndexOf (Player.Instance.CurrentAdventure)];
 	}
 
-	public void OpenChestOpenTooltip (RewardChest rewardChest) {
-		ChestOpenTooltip.Open (rewardChest);
-	}
-
 	public void OpenAdventureSelectionWindow () {
 		AdventureSelectionWindow.Open ();
-		MyInfoWindow.Close ();
-		// MyShipWindow.Close ();
-		MyMissionWindow.Close ();
 		MyButtonsOverlay.Close ();
-		MyMissionWindow.Close ();
 		MyPopUp.Close ();
-		MyShipsCatalogWindow.Close ();
-	}
-
-	public void OpenChestsWindow () {
-		ChestsWindow.Open ();
-	}
-
-	public void OpenHealPopUp (CreatureData selectedHero) {
-		HealPopUp.Open (selectedHero);
 	}
 
 	public void CloseAdventureSelectionWindow () {
@@ -263,23 +155,14 @@ public class UIOverlay : MonoBehaviour {
 	}
 
 	public void OpenSelectableInfo (Selectable selectable) {
-		MyInfoWindow.Open (selectable);
-		// MyShipWindow.Close ();
-		MyMissionWindow.Close ();
 		MyButtonsOverlay.Close ();
-		MyMissionWindow.Close ();
 		MyPopUp.Close ();
-		MyShipsCatalogWindow.Close ();
 		CloseAdventureSelectionWindow ();
 	}
 
 	public void OpenShipWindow (CreatureData shipData) {
-		MyShipWindow.Open (shipData);
-		MyMissionWindow.Close ();
 		MyButtonsOverlay.Close ();
-		MyMissionWindow.Close ();
 		MyPopUp.Close ();
-		MyInfoWindow.Close ();
 		CloseAdventureSelectionWindow ();
 	}
 
@@ -291,31 +174,6 @@ public class UIOverlay : MonoBehaviour {
 		MyImagesPopUp.Open (message, itemNames);
 	}
 
-	public void OpenMissionWindow (Mission chosenMission) {
-		MyMissionWindow.Open (chosenMission);
-		MyButtonsOverlay.Close ();
-		// MyShipWindow.Close ();
-		MyPopUp.Close ();
-		MyInfoWindow.Close ();
-		MyShipsCatalogWindow.Close ();
-		CloseAdventureSelectionWindow ();
-	}
-
-	public void CloseMissionWindow () {
-		MyMissionWindow.Close ();
-	}
-
-	public void OpenTeamSelectionWindow (Mission mission) {
-		MyTeamSelectionWindow.Open (mission);
-		MyButtonsOverlay.Close ();
-		MyMissionWindow.Close ();
-		// MyShipWindow.Close ();
-		MyPopUp.Close ();
-		MyInfoWindow.Close ();
-		MyShipsCatalogWindow.Close ();
-		CloseAdventureSelectionWindow ();
-	}
-
 	public void OpenContextButtons (Selectable selectable) {
 		if (InMoveMode) {
 			return;
@@ -324,26 +182,8 @@ public class UIOverlay : MonoBehaviour {
 		Selection = selectable;
 		Selection.Animate ();
 		MyButtonsOverlay.Open (selectable);
-		MyMissionWindow.Close ();
-		// MyShipWindow.Close ();
 		MyPopUp.Close ();
-		MyInfoWindow.Close ();
-		MyShipsCatalogWindow.Close ();
 		CloseAdventureSelectionWindow ();
-	}
-
-	public void OpenShipsCatalogWindow () {
-		MyShipsCatalogWindow.Open ();
-		MyButtonsOverlay.Close ();
-		// MyMissionWindow.Close ();
-		// MyShipWindow.Close ();
-		MyPopUp.Close ();
-		MyInfoWindow.Close ();
-		CloseAdventureSelectionWindow ();
-	}
-
-	public void UpdateHeroCatalogWindow () {
-		MyShipsCatalogWindow.UpdateLabels ();
 	}
 
 	public void CloseContextButtons (bool deselect) {
@@ -353,13 +193,9 @@ public class UIOverlay : MonoBehaviour {
 		}
 	}
 
-	public void CloseAllWindows () {
-		MyMissionWindow.Reload ();
+	public void CloseAllWindows () {		
 		MyButtonsOverlay.Close ();
-		// MyShipWindow.Close ();
 		MyPopUp.Close ();
-		MyInfoWindow.Close ();
-		MyShipsCatalogWindow.Close ();
 		CloseAdventureSelectionWindow ();
 	}
 }

@@ -174,10 +174,6 @@ public class Player : MonoBehaviour {
 		CurrentlyOpeningChest = rewardChest;
 	}
 
-	public void OpenChest (RewardChest rewardChest) {
-		UIOverlay.Instance.FinishChestOpen (rewardChest);
-	}
-
 	public void ReceiveChestReward (RewardChest rewardChest) {
 		Player.Instance.TakeItems (rewardChest.RewardItems);
 		UIOverlay.Instance.OpenImagesPopUp ("Your reward:", rewardChest.RewardItems);
@@ -202,12 +198,6 @@ public class Player : MonoBehaviour {
 		}
 		SceneManager.LoadScene (2);
 		Invoke ("ReloadChests", 0.1f);
-	}
-
-	public void ReloadChests () {
-		foreach (var chest in RewardChests) {
-			UIOverlay.Instance.UpdateShipRewardChests (chest);
-		}
 	}
 
 	public void ChangeAdventure (bool next) {

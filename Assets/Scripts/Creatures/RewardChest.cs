@@ -103,6 +103,5 @@ public class RewardChest {
 
 	public void Open () {
 		ChestState = ChestState.Open;
-		Player.Instance.OpenChest (this);
 	}
 }
