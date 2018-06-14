@@ -7,7 +7,7 @@ public class Chest : PointOfInterest {
 	public RewardChest RewardChest;
 
 	void Start () {
-		RewardChest = new RewardChest (false, true);
+		RewardChest = new RewardChest (true, false);
 		if (Player.Instance.CurrentAdventure.TreasureHunt && !POIData.Revealed) {
 			gameObject.SetActive (false);
 		}
@@ -32,6 +32,7 @@ public class Chest : PointOfInterest {
 		if (Player.Instance.RewardChests.Count < playerShip.RewardChestsCapacity) {			
 			Interact ();
 			playerShip.TakeChestReward (RewardChest);
+			// Player.Instance.ReceiveChestReward (RewardChest);
 			gameObject.SetActive (false);
 		}
 		/*Player.Instance.ReceiveReward (RewardChest.RewardItems);

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerShip : MonoBehaviour {
 
@@ -23,6 +24,8 @@ public class PlayerShip : MonoBehaviour {
 
 	public GameObject FlyingTextPrefab;
 
+	public Slider CargoSlider;
+
 	void Awake () {
 		if (Instance == null) {			
 			Instance = this;
@@ -32,6 +35,7 @@ public class PlayerShip : MonoBehaviour {
 		player = Player.Instance;
 		mover = GetComponent<MoveOnClick> ();
 		mover.OnFinishedMoving += Mover_OnFinishedMoving;
+		CargoSlider.maxValue = RewardChestsCapacity;
 		// RewardChests = new List<RewardChest> ();
 	}
 
@@ -52,6 +56,7 @@ public class PlayerShip : MonoBehaviour {
 		}
 		HideArrows ();
 		ShowArrows ();
+		CargoSlider.value = Player.Instance.RewardChests.Count;
 	}
 
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through
@@ -138,6 +143,7 @@ public class PlayerShip : MonoBehaviour {
 
 	public void TakeChestReward (RewardChest rewardChest) {
 		Player.Instance.RewardChests.Add (rewardChest);
+		CargoSlider.value = Player.Instance.RewardChests.Count;
 		//Player.Instance.OpenChest (rewardChest);
 		//Player.Instance.RewardChests.Add (rewardChest);
 	}

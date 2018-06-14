@@ -45,6 +45,9 @@ public class Player : MonoBehaviour {
 
 	public bool ReceivedReward;
 
+	public float AdventureStartedTime;
+	public float GlobalTimer;
+
 	void Awake () {
 		if (Instance == null) {			
 			Instance = this;
@@ -70,6 +73,7 @@ public class Player : MonoBehaviour {
 	int previousTimer = 0;
 
 	void Update () {
+		GlobalTimer += Time.deltaTime;
 		if (OnAdventure) {
 			AdventureTimer -= Time.deltaTime;
 			if (AdventureTimer <= 0) {
@@ -165,6 +169,7 @@ public class Player : MonoBehaviour {
 
 		RewardChests.Clear ();
 		PlayerShipRewardChests.Clear ();
+		PlayerShip.Instance.CargoSlider.value = RewardChests.Count;
 	}
 
 	public void BeginChestOpen (RewardChest rewardChest) {
@@ -193,6 +198,7 @@ public class Player : MonoBehaviour {
 			Tiles.Clear ();
 			POIDataByTiles.Clear ();
 			POIDatas.Clear ();
+			AdventureStartedTime = GlobalTimer;
 		} else {
 			ReceivedReward = false;
 		}

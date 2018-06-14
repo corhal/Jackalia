@@ -7,6 +7,9 @@ public class Portal : PointOfInterest {
 	void OnTriggerEnter2D (Collider2D other) {
 		if (other.GetComponent<PlayerShip> () != null) {
 			UIOverlay.Instance.OpenAdventureSelectionWindow ();
+			if (Player.Instance.RewardChests.Count > 0) {
+				Player.Instance.ReceiveAdventureReward ();
+			}
 		}
 	}
 }

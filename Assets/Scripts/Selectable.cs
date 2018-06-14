@@ -30,7 +30,6 @@ public class Selectable : MonoBehaviour {
 
 
 	protected virtual void Awake () {
-		Debug.Log ("farm awake as selectable");
 		actions = new List<Action> ();
 		gameManager = GameManager.Instance;
 		uiManager = UIOverlay.Instance;
