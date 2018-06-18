@@ -130,6 +130,7 @@
      <Compile Include="Assets\Scripts\PointsOfInterest\POIData.cs" />
      <Compile Include="Assets\Scripts\PointsOfInterest\PointOfInterest.cs" />
      <Compile Include="Assets\Scripts\PointsOfInterest\Portal.cs" />
+     <Compile Include="Assets\Scripts\PortalBuilding.cs" />
      <Compile Include="Assets\Scripts\Selectable.cs" />
      <Compile Include="Assets\Scripts\SelectableTile.cs" />
      <Compile Include="Assets\Scripts\Shipment.cs" />
@@ -142,6 +143,7 @@
      <Compile Include="Assets\Scripts\UI\Elements\ShipSkillButton.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\SkillElement.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\AdventureSelectionWindow.cs" />
+     <Compile Include="Assets\Scripts\UI\Windows\AdventureWindow.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\ContextButtonsOverlay.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\ImagesPopUp.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\ModalPopUp.cs" />

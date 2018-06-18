@@ -97,7 +97,7 @@ public class Selectable : MonoBehaviour {
 	}
 
 	void RealClick () {
-		if (!GameManager.Instance.CameraDragged && IsAvailable && !Utility.IsPointerOverUIObject () && Allegiance != Allegiance.Enemy) {
+		if (Player.Instance.OnAdventure && !GameManager.Instance.CameraDragged && IsAvailable && !Utility.IsPointerOverUIObject () && Allegiance != Allegiance.Enemy) {
 			if (!GameManager.Instance.PlayerShip.CurrentTile.Neighbors.Contains ((this as SelectableTile))) {
 				return;
 			}

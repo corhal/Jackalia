@@ -27,6 +27,7 @@ public class UIOverlay : MonoBehaviour {
 	public PopUp MyPopUp;
 	public ImagesPopUp MyImagesPopUp;
 	public AdventureSelectionWindow AdventureSelectionWindow;
+	public AdventureWindow AdventureWindow;
 
 
 	public GameObject MapNode;
@@ -152,6 +153,13 @@ public class UIOverlay : MonoBehaviour {
 		if (AdventureSelectionWindow != null) {
 			AdventureSelectionWindow.Close ();
 		}
+	}
+
+	public void OpenAdventureWindow () {
+		AdventureWindow.Open ();
+		AdventureSelectionWindow.Close ();
+		MyButtonsOverlay.Close ();
+		MyPopUp.Close ();
 	}
 
 	public void OpenSelectableInfo (Selectable selectable) {
