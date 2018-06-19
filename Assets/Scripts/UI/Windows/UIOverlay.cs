@@ -17,6 +17,8 @@ public class UIOverlay : MonoBehaviour {
 	public Text ExpLabel;
 	public Slider ExpSlider;
 
+	public Text ChestCountLabel;
+
 	Player player;
 	public static UIOverlay Instance;
 
@@ -96,6 +98,7 @@ public class UIOverlay : MonoBehaviour {
 		LevelLabel.text = "" + player.Level;
 		ExpSlider.maxValue = player.ExpForLevel [player.Level];
 		ExpSlider.value = player.Inventory ["Exp"];
+		ChestCountLabel.text = Player.Instance.ChestsFound + "/" + Player.Instance.CurrentAdventure.InitialChestsCount;
 		if (player.OnAdventure) {			
 			int time = (int)player.AdventureTimer;
 			int hours = time / 3600;

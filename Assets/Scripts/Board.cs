@@ -91,6 +91,9 @@ public class Board : MonoBehaviour {
 				if (AllClear) {
 					tile.GetComponent<SelectableTile> ().StopParticles ();
 				}
+				if (Random.Range(0.0f, 1.0f) <= Player.Instance.CurrentAdventure.RevealedTilesRatio) {
+					tile.GetComponent<SelectableTile> ().StopParticles ();
+				}
 				if (Player.Instance.NewBoard) {
 					POIkind poi = poiKinds [counter]; 
 					tile.GetComponent<SelectableTile> ().PointOfInterest = poi;
@@ -115,6 +118,7 @@ public class Board : MonoBehaviour {
 		if (OnBoardGenerationFinished != null) {
 			OnBoardGenerationFinished ();
 		}
+		Player.Instance.CurrentAdventure.InitialChestsCount = PointsOfInterestAmount [POIkind.Chest]; // spaghetti code ftw
 	}
 
 	public List<SelectableTile> GetTileNeighbors (SelectableTile tile) {

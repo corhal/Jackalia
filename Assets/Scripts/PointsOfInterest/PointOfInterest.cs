@@ -8,6 +8,7 @@ public class PointOfInterest : MonoBehaviour {
 	public List<SelectableTile> AdjacentTiles;
 	public float AdjacentRadius;
 	public POIData POIData;
+	public FlagPost FlagPost;
 
 	public virtual void Interact () {
 		POIData.Interacted = true;
@@ -17,6 +18,9 @@ public class PointOfInterest : MonoBehaviour {
 		Tile.StopParticles ();
 		foreach (var tile in AdjacentTiles) {
 			tile.StopParticles ();
+		}
+		if (FlagPost != null) {
+			FlagPost.ChangeFlag ();
 		}
 	}
 

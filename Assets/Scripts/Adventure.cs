@@ -12,9 +12,14 @@ public class Adventure {
 	public List<POIkind> POIs;
 	public List<int> POIamounts;
 
+	public int InitialChestsCount;
+
 	public float TimeLimit;
 	public bool TreasureHunt;
 
 	public int MapsForTreasure;
 	public string Ocean;
+
+	public float RevealedTilesRatio;
+	public int TilesAmount { get { return (PosWidth - NegWidth + 1) * (PosHeight - NegHeight + 1); } }
 }

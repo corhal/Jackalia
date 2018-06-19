@@ -12,6 +12,14 @@ public class Player : MonoBehaviour {
 	public int MaxEnergy;
 	public int Energy;
 
+	public int MaxEnergySave;
+	public int EnergySave;
+
+	public int FoodInFarm; // top 10 dirty haxx
+	public int MaxFoodInFarm;
+
+	public int ChestsFound;
+
 	public List<Mission> Missions;
 	public Mission CurrentMission;
 	public List<CreatureData> ShipDatas;
@@ -147,6 +155,8 @@ public class Player : MonoBehaviour {
 		}
 		Player.Instance.Inventory ["Map"] = 0;
 		OnAdventure = false;
+		Energy = EnergySave; 
+		MaxEnergy = MaxEnergySave;
 		SceneManager.LoadScene (0);
 		// Invoke ("ReceiveAdventureReward", 0.5f);
 		CurrentAdventure = Adventures [0];
@@ -155,6 +165,7 @@ public class Player : MonoBehaviour {
 	public void ReceiveAdventureReward () {
 		Dictionary<string, int> totalReward = new Dictionary<string, int> ();
 		foreach (var rewardChest in RewardChests) {
+			ChestsFound++;
 			foreach (var rewardItem in rewardChest.RewardItems) {
 				if (!totalReward.ContainsKey(rewardItem.Key)) {
 					totalReward.Add (rewardItem.Key, rewardItem.Value);
@@ -199,6 +210,12 @@ public class Player : MonoBehaviour {
 			POIDataByTiles.Clear ();
 			POIDatas.Clear ();
 			AdventureStartedTime = GlobalTimer;
+			Energy -= CurrentAdventure.TilesAmount;
+			EnergySave = Energy;
+			MaxEnergySave = MaxEnergy;
+			MaxEnergy = CurrentAdventure.TilesAmount;
+			Energy = MaxEnergy;
+			ChestsFound = 0;
 		} else {
 			ReceivedReward = false;
 		}

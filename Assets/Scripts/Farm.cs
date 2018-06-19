@@ -6,9 +6,10 @@ using UnityEngine.UI;
 public class Farm : Selectable {
 
 	public Slider FoodSlider;
+	public GameObject ReadyMarkerObject;
 
-	public int MaxFood;
-	public int Food;
+	public int MaxFood { get { return Player.Instance.MaxFoodInFarm; } set { Player.Instance.MaxFoodInFarm = value; } }
+	public int Food { get { return Player.Instance.FoodInFarm; } set { Player.Instance.FoodInFarm = value; } }
 	public float SecondsPerFood;
 	float t = 0.0f;
 
@@ -22,13 +23,19 @@ public class Farm : Selectable {
 	protected override void Start () {
 		base.Start ();
 		float time = Player.Instance.GlobalTimer - Player.Instance.AdventureStartedTime;
-		Food = (int)(time / (float)SecondsPerFood); // это на самом деле неправильно, т.к. не учитывает, сколько еды уже было
+		Food += (int)(time / (float)SecondsPerFood);
+		if (Food >= MaxFood / 3 && !ReadyMarkerObject.activeSelf) {
+			ReadyMarkerObject.SetActive (true);
+		}
 	}
 
 	public void CollectFood () {
 		int initialEnergy = player.Energy;
 		player.Energy = Mathf.Min (player.Energy + Food, player.MaxEnergy);
 		Food -= player.Energy - initialEnergy;
+		if (Food < MaxFood / 3) {
+			ReadyMarkerObject.SetActive (false);
+		}
 	}
 
 	protected override void Update () {
@@ -38,6 +45,9 @@ public class Farm : Selectable {
 			if (t >= SecondsPerFood) {
 				t = 0.0f;
 				Food += 1;
+			}
+			if (Food >= MaxFood / 3 && !ReadyMarkerObject.activeSelf) {
+				ReadyMarkerObject.SetActive (true);
 			}
 		}
 		FoodSlider.value = Food;
