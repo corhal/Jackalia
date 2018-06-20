@@ -25,6 +25,12 @@ public class MoveOnClick : MonoBehaviour {
 	public event StartedMoving OnStartedMoving;
 	public event StartedMoving OnFinishedMoving;
 
+	public void Stop () {
+		Debug.Log ("pls stahp");
+		shouldMove = false;
+		target = transform.position;
+	}
+
 	public void MoveToPoint (Vector2 target) {
 		start = transform.position;
 		this.target = target;
@@ -72,8 +78,6 @@ public class MoveOnClick : MonoBehaviour {
 
 				DrawLine (start, target);
 				ShowLine ();
-
-
 
 				GameManager.Instance.InMoveMode = false;
 				UIOverlay.Instance.CloseContextButtons (true);

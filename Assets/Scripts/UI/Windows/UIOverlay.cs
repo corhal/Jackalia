@@ -30,7 +30,7 @@ public class UIOverlay : MonoBehaviour {
 	public ImagesPopUp MyImagesPopUp;
 	public AdventureSelectionWindow AdventureSelectionWindow;
 	public AdventureWindow AdventureWindow;
-
+	public EnergyPopup EnergyPopup;
 
 	public GameObject MapNode;
 
@@ -160,6 +160,14 @@ public class UIOverlay : MonoBehaviour {
 
 	public void OpenAdventureWindow () {
 		AdventureWindow.Open ();
+		AdventureSelectionWindow.Close ();
+		MyButtonsOverlay.Close ();
+		MyPopUp.Close ();
+	}
+
+	public void OpenEnergyPopup () {
+		EnergyPopup.Open ();
+		AdventureWindow.Close ();
 		AdventureSelectionWindow.Close ();
 		MyButtonsOverlay.Close ();
 		MyPopUp.Close ();

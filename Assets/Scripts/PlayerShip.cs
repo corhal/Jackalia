@@ -26,6 +26,9 @@ public class PlayerShip : MonoBehaviour {
 
 	public Slider CargoSlider;
 
+	public delegate void PlayerTurn (PlayerShip sender);
+	public event PlayerTurn OnPlayerTurn;
+
 	void Awake () {
 		if (Instance == null) {			
 			Instance = this;
@@ -39,10 +42,18 @@ public class PlayerShip : MonoBehaviour {
 		// RewardChests = new List<RewardChest> ();
 	}
 
+	//public bool AlreadyCaught;
 	void Mover_OnFinishedMoving (MoveOnClick sender) {
+		//AlreadyCaught = false;
 		if (lastSeenCollider == null) {
 			return;
-		}
+		}  /*else if (lastSeenCollider.gameObject.GetComponent<EnemyShip> () != null && !AlreadyCaught) {
+			AlreadyCaught = true;
+			SelectableTile portalTile = Board.Instance.FindTileWithPOIKind (POIkind.Portal);
+			PlayerShip.Instance.MoveToTile (portalTile, false, true);
+			PlayerShip.Instance.ShowFlyingText (("-" + lastSeenCollider.gameObject.GetComponent<EnemyShip> ().EnergyDamage), Color.red);
+			Player.Instance.Energy -= lastSeenCollider.gameObject.GetComponent<EnemyShip> ().EnergyDamage;
+		}*/
 	}
 
 	void Start () {
@@ -75,6 +86,7 @@ public class PlayerShip : MonoBehaviour {
 		float arrowsDelay = teleport ? 0.0f : 1.5f;
 		if (!spendEnergy) {
 			if (teleport) {
+				mover.Stop ();
 				transform.position = tile.transform.position;
 			} else {
 				mover.MoveToPoint (tile.transform.position);
@@ -96,7 +108,7 @@ public class PlayerShip : MonoBehaviour {
 			HideArrows ();
 			Invoke ("ShowArrows", arrowsDelay);
 		} else {
-			UIOverlay.Instance.OpenPopUp ("Not enough energy!");
+			UIOverlay.Instance.OpenEnergyPopup ();
 		}
 	}
 
@@ -146,5 +158,11 @@ public class PlayerShip : MonoBehaviour {
 		CargoSlider.value = Player.Instance.RewardChests.Count;
 		//Player.Instance.OpenChest (rewardChest);
 		//Player.Instance.RewardChests.Add (rewardChest);
+	}
+
+	public void MakePlayerTurn () {
+		if (OnPlayerTurn != null) {
+			OnPlayerTurn (this);
+		}
 	}
 }

@@ -12,6 +12,8 @@ public class Adventure {
 	public List<POIkind> POIs;
 	public List<int> POIamounts;
 
+	public int EnemyShipsCount;
+
 	public int InitialChestsCount;
 
 	public float TimeLimit;
@@ -22,4 +24,5 @@ public class Adventure {
 
 	public float RevealedTilesRatio;
 	public int TilesAmount { get { return (PosWidth - NegWidth + 1) * (PosHeight - NegHeight + 1); } }
+	public int EnergyCost { get { return TilesAmount - POIamounts [POIs.IndexOf (POIkind.Current)]; } }
 }

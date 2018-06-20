@@ -103,7 +103,7 @@ public class Selectable : MonoBehaviour {
 			}
 
 			Animate ();
-
+			PlayerShip.Instance.MakePlayerTurn ();
 			MoveShipHere ();
 			Deanimate ();		
 		}

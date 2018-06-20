@@ -113,6 +113,7 @@
      <Compile Include="Assets\Scripts\CSVReader.cs" />
      <Compile Include="Assets\Scripts\DataBase.cs" />
      <Compile Include="Assets\Scripts\DragController.cs" />
+     <Compile Include="Assets\Scripts\EnemyShip.cs" />
      <Compile Include="Assets\Scripts\Farm.cs" />
      <Compile Include="Assets\Scripts\FlagPost.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
@@ -145,6 +146,7 @@
      <Compile Include="Assets\Scripts\UI\Windows\AdventureSelectionWindow.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\AdventureWindow.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\ContextButtonsOverlay.cs" />
+     <Compile Include="Assets\Scripts\UI\Windows\EnergyPopup.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\ImagesPopUp.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\ModalPopUp.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\PopUp.cs" />

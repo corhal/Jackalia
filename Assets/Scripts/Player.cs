@@ -30,6 +30,7 @@ public class Player : MonoBehaviour {
 	public BJDataBase BJDataBase;
 	public Dictionary<string, int> Inventory;
 
+	public int Gems { get { return Inventory ["Gems"]; } }
 	public int Gold { get { return Inventory ["Gold"]; } }
 	public int Exp { get { return Inventory ["Exp"]; } }
 	public int Level = 1;
@@ -210,10 +211,10 @@ public class Player : MonoBehaviour {
 			POIDataByTiles.Clear ();
 			POIDatas.Clear ();
 			AdventureStartedTime = GlobalTimer;
-			Energy -= CurrentAdventure.TilesAmount;
+			Energy -= CurrentAdventure.EnergyCost;
 			EnergySave = Energy;
 			MaxEnergySave = MaxEnergy;
-			MaxEnergy = CurrentAdventure.TilesAmount;
+			MaxEnergy = CurrentAdventure.EnergyCost;
 			Energy = MaxEnergy;
 			ChestsFound = 0;
 		} else {
@@ -249,6 +250,19 @@ public class Player : MonoBehaviour {
 			Inventory ["Gold"] -= amount;
 		} else {
 			UIOverlay.Instance.OpenPopUp ("Not enough gold");
+		}
+	}
+
+	public void TakeGems (int amount) {
+		Inventory ["Gems"] += amount;
+		// Gold += amount;
+	}
+
+	public void GiveGems (int amount) {
+		if (Gems >= amount) {
+			Inventory ["Gems"] -= amount;
+		} else {
+			UIOverlay.Instance.OpenPopUp ("Not enough gems");
 		}
 	}
 

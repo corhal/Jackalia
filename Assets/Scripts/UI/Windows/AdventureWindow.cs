@@ -22,12 +22,11 @@ public class AdventureWindow : MonoBehaviour {
 	public void CountTiles () {
 		Adventure adventure = Player.Instance.CurrentAdventure;
 		//int tilesAmount = (adventure.PosWidth - adventure.NegWidth + 1) * (adventure.PosHeight - adventure.NegHeight + 1);
-		FoodCost = adventure.TilesAmount;
-		FoodCostLabel.text = "Start " + FoodCost;
+		FoodCostLabel.text = "Start " + adventure.EnergyCost;
 	}
 
 	public void StartAdventure () {
-		if (FoodCost <= Player.Instance.Energy) {			
+		if (Player.Instance.CurrentAdventure.EnergyCost <= Player.Instance.Energy) {			
 			Close ();
 			Player.Instance.NewBoard = true;
 			Player.Instance.LoadAdventure ();

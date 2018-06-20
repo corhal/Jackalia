@@ -6,6 +6,7 @@ public class Current : PointOfInterest {
 
 	public SelectableTile Target;
 	public PlayerShip CaughtPlayerShip;
+	public EnemyShip CaughtEnemyShip;
 	public SpriteRenderer CurrentSprite;
 
 	void Start () {
@@ -59,6 +60,10 @@ public class Current : PointOfInterest {
 			CaughtPlayerShip = other.gameObject.GetComponent<PlayerShip> ();
 			Interact ();
 		}
+		if (other.gameObject.GetComponent<EnemyShip>() != null) {
+			CaughtEnemyShip = other.gameObject.GetComponent<EnemyShip> ();
+			Invoke ("MoveEnemyShip", 0.35f);
+		}
 	}
 
 	public override void Interact () {
@@ -71,5 +76,9 @@ public class Current : PointOfInterest {
 	void MovePlayerShip () {
 		Target.StopParticles ();
 		CaughtPlayerShip.MoveToTile (Target, false, false);
+	}
+
+	void MoveEnemyShip () {
+		CaughtEnemyShip.MoveToTile (Target, false, false);
 	}
 }

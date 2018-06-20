@@ -34,6 +34,8 @@ public class Board : MonoBehaviour {
 	public GameObject ObstaclePrefab;
 	public GameObject ObservatoryPrefab;
 
+	public GameObject EnemyShipPrefab;
+
 	public static Board Instance;
 
 	public SelectableTile[,] Tiles;
@@ -71,6 +73,7 @@ public class Board : MonoBehaviour {
 		Utility.Shuffle (poiKinds);
 		POIKinds = new List<POIkind> (poiKinds);
 		int counter = 0;
+		int enemyShipsCounter = 0;
 		for (int i = NegWidth; i <= PosWidth; i++) {
 			for (int j = NegHeight; j <= PosHeight; j++) {				
 				GameObject tile = Instantiate (TilePrefab) as GameObject;
@@ -105,6 +108,15 @@ public class Board : MonoBehaviour {
 				} 
 				Tiles[i - NegWidth, j - NegHeight] = tile.GetComponent<SelectableTile> ();
 				tile.GetComponent<SelectableTile> ().AbsBoardCoords = new Vector2Int (i - NegWidth, j - NegHeight);
+
+				if (tile.GetComponent<SelectableTile> ().PointOfInterest == POIkind.None && enemyShipsCounter < Player.Instance.CurrentAdventure.EnemyShipsCount) {
+					GameObject enemyShipObject = Instantiate (EnemyShipPrefab) as GameObject;
+					enemyShipObject.transform.SetParent (tile.transform);
+					enemyShipObject.GetComponent<EnemyShip> ().CurrentTile = tile.GetComponent<SelectableTile> ();
+					enemyShipObject.transform.position = new Vector3 (tile.transform.position.x, tile.transform.position.y, 0);
+					enemyShipsCounter++;
+				}
+
 				counter++;
 			}
 		}
@@ -119,6 +131,15 @@ public class Board : MonoBehaviour {
 			OnBoardGenerationFinished ();
 		}
 		Player.Instance.CurrentAdventure.InitialChestsCount = PointsOfInterestAmount [POIkind.Chest]; // spaghetti code ftw
+	}
+
+	public SelectableTile FindTileWithPOIKind (POIkind poikind) {
+		foreach (var tile in Tiles) {
+			if (tile.PointOfInterest == poikind) {
+				return tile;
+			}
+		}
+		return null;
 	}
 
 	public List<SelectableTile> GetTileNeighbors (SelectableTile tile) {
