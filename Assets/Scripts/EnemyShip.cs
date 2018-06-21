@@ -10,7 +10,7 @@ public class EnemyShip : MonoBehaviour {
 
 	public int EnergyPerDistance;
 
-	public Collider2D lastSeenCollider;
+	public PlayerShip CaughtPlayerShip;
 
 	public SelectableTile CurrentTile;
 
@@ -32,8 +32,14 @@ public class EnemyShip : MonoBehaviour {
 	}
 
 	void Mover_OnFinishedMoving (MoveOnClick sender) {
-		if (lastSeenCollider == null) {
+		if (CaughtPlayerShip == null) {
 			return;
+		}
+		if (CaughtPlayerShip != null) {
+			SelectableTile portalTile = Board.Instance.FindTileWithPOIKind (POIkind.Portal);
+			CaughtPlayerShip.MoveToTile (portalTile, false, true);
+			CaughtPlayerShip.ShowFlyingText (("-" + EnergyDamage), Color.red);
+			Player.Instance.Energy -= EnergyDamage;
 		}
 	}
 
@@ -49,20 +55,15 @@ public class EnemyShip : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through
-		if (other.GetComponent<SelectableTile> () == null && other.GetComponentInParent<SelectableTile> () == null) {
-			lastSeenCollider = other;
-		}
 		if (other.GetComponent<PlayerShip> () != null) {
-			SelectableTile portalTile = Board.Instance.FindTileWithPOIKind (POIkind.Portal);
-			PlayerShip.Instance.MoveToTile (portalTile, false, true);
-			PlayerShip.Instance.ShowFlyingText (("-" + EnergyDamage), Color.red);
-			Player.Instance.Energy -= EnergyDamage;
+			CaughtPlayerShip = other.GetComponent<PlayerShip> ();
 		}
+
 	}
 
 	void OnTriggerExit2D (Collider2D other) {
-		if (lastSeenCollider == other) {
-			lastSeenCollider = null;
+		if (other.GetComponent<PlayerShip> () != null && other.GetComponent<PlayerShip> () == CaughtPlayerShip) {
+			CaughtPlayerShip = null;
 		}
 	}
 

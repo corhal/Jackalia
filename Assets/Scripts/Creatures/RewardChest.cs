@@ -43,7 +43,7 @@ public class RewardChest {
 		}
 
 		if (!shardsOnly) {
-			possibleRewards.Add ("Gold", Random.Range (10, 100));
+			possibleRewards.Add ("Gold", Random.Range (5, 10));
 		}
 
 		float roll = Random.Range (0.0f, 1.0f);

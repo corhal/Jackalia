@@ -57,6 +57,8 @@ public class Player : MonoBehaviour {
 	public float AdventureStartedTime;
 	public float GlobalTimer;
 
+	public bool AltFarmIsGrowing;
+
 	void Awake () {
 		if (Instance == null) {			
 			Instance = this;
@@ -149,6 +151,8 @@ public class Player : MonoBehaviour {
 
 	public void LoadVillage () {
 		Invoke ("ReloadChests", 0.1f);
+		RewardChests.Clear ();
+		PlayerShipRewardChests.Clear ();
 		for (int i = CurrentTeam.Count - 1; i >= 0; i--) {
 			if (CurrentTeam [i].IsDead) {
 				CurrentTeam.Remove (CurrentTeam [i]);

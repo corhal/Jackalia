@@ -111,7 +111,7 @@ public class Board : MonoBehaviour {
 
 				if (tile.GetComponent<SelectableTile> ().PointOfInterest == POIkind.None && enemyShipsCounter < Player.Instance.CurrentAdventure.EnemyShipsCount) {
 					GameObject enemyShipObject = Instantiate (EnemyShipPrefab) as GameObject;
-					enemyShipObject.transform.SetParent (tile.transform);
+					//enemyShipObject.transform.SetParent (tile.transform);
 					enemyShipObject.GetComponent<EnemyShip> ().CurrentTile = tile.GetComponent<SelectableTile> ();
 					enemyShipObject.transform.position = new Vector3 (tile.transform.position.x, tile.transform.position.y, 0);
 					enemyShipsCounter++;
