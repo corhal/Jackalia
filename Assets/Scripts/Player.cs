@@ -57,7 +57,16 @@ public class Player : MonoBehaviour {
 	public float AdventureStartedTime;
 	public float GlobalTimer;
 
-	public bool AltFarmIsGrowing;
+	public List<GameObject> BuildingsToSavePrefabs;
+	public List<string> BuildingNamesToDestroy;
+	public List<Vector3> CoordsToSave;
+
+	public int FarmIndex;
+	public List<int> AltFarmGrowingIndexes;
+	public List<float> AltFarmStartedGrowingTimes;
+	public List<bool> AltFarmsAreGrowing;
+
+	public bool BuildingIsBeingBuilt;
 
 	void Awake () {
 		if (Instance == null) {			
@@ -87,7 +96,7 @@ public class Player : MonoBehaviour {
 		GlobalTimer += Time.deltaTime;
 		if (OnAdventure) {
 			AdventureTimer -= Time.deltaTime;
-			if (AdventureTimer <= 0) {
+			if (AdventureTimer <= 0) {				
 				LoadVillage ();
 				UIOverlay.Instance.OpenPopUp ("Adventure time is over!");
 			}
@@ -151,6 +160,7 @@ public class Player : MonoBehaviour {
 
 	public void LoadVillage () {
 		Invoke ("ReloadChests", 0.1f);
+		FarmIndex = 0;
 		RewardChests.Clear ();
 		PlayerShipRewardChests.Clear ();
 		for (int i = CurrentTeam.Count - 1; i >= 0; i--) {

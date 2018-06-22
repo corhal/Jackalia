@@ -12,9 +12,9 @@ public class AltFarmWindow : MonoBehaviour {
 	public List<Text> GrowFoodCostLabels;
 	public List<Text> GrowFoodTimeLabels;
 
-	public void Open () {
+	public void Open (AltFarm altFarm) {
 		Window.SetActive (true);
-
+		AltFarm = altFarm;
 		for (int i = 0; i < AltFarm.FoodsToGrow.Count; i++) {
 			GrowFoodAmountLabels [i].text = AltFarm.FoodsToGrow [i] + "";
 			GrowFoodCostLabels [i].text = AltFarm.FoodCosts [i] + "";

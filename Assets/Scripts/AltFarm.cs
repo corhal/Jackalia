@@ -27,17 +27,26 @@ public class AltFarm : Selectable {
 
 	protected override void Start () {
 		base.Start ();
-		float time = Player.Instance.GlobalTimer - Player.Instance.AdventureStartedTime;
+		int index = Player.Instance.FarmIndex;
+		Debug.Log ("farm index: " + index + " vs " + Player.Instance.AltFarmsAreGrowing.Count + " count");
 
-		if (Player.Instance.AltFarmIsGrowing) {
+		if (Player.Instance.AltFarmsAreGrowing.Count > index) {
+			float time = Player.Instance.GlobalTimer - Player.Instance.AltFarmStartedGrowingTimes [index];
 			t += time;
+			CurrentIndex = Player.Instance.AltFarmGrowingIndexes [index];
 			isGrowing = true;
+			/*Player.Instance.AltFarmStartedGrowingTimes.RemoveAt (0);
+			Player.Instance.AltFarmsAreGrowing.RemoveAt (0);
+			Player.Instance.AltFarmGrowingIndexes.RemoveAt (0);*/
+			TimeSlider.gameObject.SetActive (true);
+			TimeSlider.maxValue = FoodTimes [CurrentIndex];
+			TimeLabel.gameObject.SetActive (true);
+			Player.Instance.FarmIndex++;
 		}
-
 	}
 
 	public void OpenWindow () {
-		uiManager.OpenAltFarmWindow ();
+		uiManager.OpenAltFarmWindow (this);
 	}
 
 	public void CollectFood () {
@@ -56,7 +65,9 @@ public class AltFarm : Selectable {
 			TimeSlider.gameObject.SetActive (true);
 			TimeLabel.gameObject.SetActive (true);
 			TimeSlider.maxValue = FoodTimes [CurrentIndex];
-			Player.Instance.AltFarmIsGrowing = true;
+			Player.Instance.AltFarmGrowingIndexes.Add (CurrentIndex);
+			Player.Instance.AltFarmStartedGrowingTimes.Add (Player.Instance.GlobalTimer);
+			Player.Instance.AltFarmsAreGrowing.Add(true);
 		} else {
 			uiManager.OpenPopUp ("Not enough gold!");
 		}
@@ -71,8 +82,13 @@ public class AltFarm : Selectable {
 			if (t >= FoodTimes [CurrentIndex]) {
 				t = 0.0f;
 				ReadyMarkerObject.SetActive (true);
+				TimeLabel.gameObject.SetActive (false);
 				isGrowing = false;
-				Player.Instance.AltFarmIsGrowing = false;
+				if (Player.Instance.AltFarmsAreGrowing.Count > 0) {
+					Player.Instance.AltFarmGrowingIndexes.RemoveAt (0);
+					Player.Instance.AltFarmStartedGrowingTimes.RemoveAt (0);
+					Player.Instance.AltFarmsAreGrowing.RemoveAt (0);
+				}
 			}
 		}
 	}

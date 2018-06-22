@@ -91,6 +91,20 @@ public class GameManager : MonoBehaviour {
 				Player.Instance.ReceiveReward (Player.Instance.CurrentMission.PossibleRewards);
 			}
 
+			if (!Player.Instance.OnAdventure) {
+				Selectable[] selectables = GameObject.FindObjectsOfType<Selectable> ();
+				foreach (var selectable in selectables) {
+					if (Player.Instance.BuildingNamesToDestroy.Contains(selectable.Name)) {
+						Destroy (selectable.gameObject);
+					}
+				}
+
+				for (int i = 0; i < Player.Instance.BuildingsToSavePrefabs.Count; i++) {
+					GameObject building = Instantiate (Player.Instance.BuildingsToSavePrefabs [i]) as GameObject;
+					building.transform.position = Player.Instance.CoordsToSave [i];
+				}
+			}
+
 		} else if (!isBattle) {			
 			Player.Instance.CreateShipDatas ();
 			Player.Instance.SavePlayerShip (PlayerShip);

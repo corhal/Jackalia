@@ -107,6 +107,7 @@
      <Compile Include="Assets\Scripts\BattleJack\Cards\BJCardObject.cs" />
      <Compile Include="Assets\Scripts\BattleJack\UIController.cs" />
      <Compile Include="Assets\Scripts\Board.cs" />
+     <Compile Include="Assets\Scripts\BuildingConstruction.cs" />
      <Compile Include="Assets\Scripts\CameraDrag.cs" />
      <Compile Include="Assets\Scripts\Creatures\CreatureData.cs" />
      <Compile Include="Assets\Scripts\Creatures\RewardChest.cs" />

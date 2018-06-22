@@ -24,5 +24,5 @@ public class Adventure {
 
 	public float RevealedTilesRatio;
 	public int TilesAmount { get { return (PosWidth - NegWidth + 1) * (PosHeight - NegHeight + 1); } }
-	public int EnergyCost { get { return TilesAmount - POIamounts [POIs.IndexOf (POIkind.Current)]; } }
+	public int EnergyCost { get { return TilesAmount - POIamounts [POIs.IndexOf (POIkind.Current)] / 2 + POIamounts [POIs.IndexOf (POIkind.Obstacle)]; } }
 }

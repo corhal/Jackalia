@@ -153,8 +153,8 @@ public class UIOverlay : MonoBehaviour {
 		MyPopUp.Close ();
 	}
 
-	public void OpenAltFarmWindow () {
-		AltFarmWindow.Open ();
+	public void OpenAltFarmWindow (AltFarm altFarm) {
+		AltFarmWindow.Open (altFarm);
 		MyButtonsOverlay.Close ();
 		MyPopUp.Close ();
 	}
