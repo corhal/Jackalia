@@ -68,6 +68,9 @@ public class Player : MonoBehaviour {
 
 	public bool BuildingIsBeingBuilt;
 
+	public List<Artifact> Artifacts;
+	public Artifact ActiveArtifact;
+
 	void Awake () {
 		if (Instance == null) {			
 			Instance = this;
@@ -86,7 +89,11 @@ public class Player : MonoBehaviour {
 
 	void Start () {
 		CurrentAdventure = Adventures [0];
-		//Inventory.Add(
+		ActiveArtifact = Artifacts [0];
+	}
+
+	public void UseArtifact () {
+		ActiveArtifact.Use ();
 	}
 
 	float timer = 0.0f;

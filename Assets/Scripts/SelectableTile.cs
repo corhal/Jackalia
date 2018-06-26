@@ -13,10 +13,12 @@ public class SelectableTile : Selectable {
 	public POIkind PointOfInterest;
 
 	public List<SelectableTile> Neighbors;
+	public List<SelectableTile> FullNeighbors;
 
 	protected override void Awake () {
 		base.Awake ();
 		Neighbors = new List<SelectableTile> ();
+		FullNeighbors = new List<SelectableTile> ();
 	}
 
 	public void StopParticles () {
@@ -25,10 +27,10 @@ public class SelectableTile : Selectable {
 		Player.Instance.Tiles [BoardCoordsAsString] = false;
 	}
 
-	public override void MoveShipHere () {		
+	public override void MoveShipHere (bool teleport) {		
 		if (Player.Instance.Energy >= GameManager.Instance.PlayerShip.EnergyPerDistance * 1) {
 			StopParticles ();
 		}
-		base.MoveShipHere ();
+		base.MoveShipHere (teleport);
 	}
 }

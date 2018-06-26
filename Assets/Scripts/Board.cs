@@ -122,6 +122,7 @@ public class Board : MonoBehaviour {
 		}
 		foreach (var tile in Tiles) {
 			tile.Neighbors = GetTileNeighbors (tile);
+			tile.FullNeighbors = GetFullTileNeighbors (tile);
 		}
 		if (Player.Instance.NewBoard) {
 			Player.Instance.NewBoard = false;
@@ -149,6 +150,35 @@ public class Board : MonoBehaviour {
 		}
 		if (tile.AbsBoardCoords.x - 1 >= 0) {
 			neighbors.Add (Tiles [tile.AbsBoardCoords.x - 1, tile.AbsBoardCoords.y]);
+		}
+		if (tile.AbsBoardCoords.y + 1 < Tiles.GetLength (0)) {
+			neighbors.Add (Tiles [tile.AbsBoardCoords.x, tile.AbsBoardCoords.y + 1]);
+		}
+		if (tile.AbsBoardCoords.y - 1 >= 0) {
+			neighbors.Add (Tiles [tile.AbsBoardCoords.x, tile.AbsBoardCoords.y - 1]);
+		}
+		return neighbors;
+	}
+
+	public List<SelectableTile> GetFullTileNeighbors (SelectableTile tile) {
+		List<SelectableTile> neighbors = new List<SelectableTile> ();
+		if (tile.AbsBoardCoords.x + 1 < Tiles.GetLength (0)) {
+			neighbors.Add (Tiles [tile.AbsBoardCoords.x + 1, tile.AbsBoardCoords.y]);
+			if (tile.AbsBoardCoords.y + 1 < Tiles.GetLength (0)) {
+				neighbors.Add (Tiles [tile.AbsBoardCoords.x + 1, tile.AbsBoardCoords.y + 1]);
+			}
+			if (tile.AbsBoardCoords.y - 1 >= 0) {
+				neighbors.Add (Tiles [tile.AbsBoardCoords.x + 1, tile.AbsBoardCoords.y - 1]);
+			}
+		}
+		if (tile.AbsBoardCoords.x - 1 >= 0) {
+			neighbors.Add (Tiles [tile.AbsBoardCoords.x - 1, tile.AbsBoardCoords.y]);
+			if (tile.AbsBoardCoords.y + 1 < Tiles.GetLength (0)) {
+				neighbors.Add (Tiles [tile.AbsBoardCoords.x - 1, tile.AbsBoardCoords.y + 1]);
+			}
+			if (tile.AbsBoardCoords.y - 1 >= 0) {
+				neighbors.Add (Tiles [tile.AbsBoardCoords.x - 1, tile.AbsBoardCoords.y - 1]);
+			}
 		}
 		if (tile.AbsBoardCoords.y + 1 < Tiles.GetLength (0)) {
 			neighbors.Add (Tiles [tile.AbsBoardCoords.x, tile.AbsBoardCoords.y + 1]);

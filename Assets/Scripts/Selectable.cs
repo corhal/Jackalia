@@ -52,8 +52,8 @@ public class Selectable : MonoBehaviour {
 		uiManager.OpenSelectableInfo (this);
 	}
 
-	public virtual void MoveShipHere () {
-		PlayerShip.Instance.MoveToTile (this as SelectableTile, true, false);
+	public virtual void MoveShipHere (bool teleport) {
+		PlayerShip.Instance.MoveToTile (this as SelectableTile, true, teleport);
 		uiManager.CloseContextButtons (true);
 	}
 
@@ -98,13 +98,26 @@ public class Selectable : MonoBehaviour {
 
 	void RealClick () {
 		if (Player.Instance.OnAdventure && !GameManager.Instance.CameraDragged && IsAvailable && !Utility.IsPointerOverUIObject () && Allegiance != Allegiance.Enemy) {
+			if (Player.Instance.ActiveArtifact.Name == "Jump" && Player.Instance.ActiveArtifact.IsActivated) {
+				foreach (var neighborTile in GameManager.Instance.PlayerShip.CurrentTile.Neighbors) {
+					if (neighborTile.Neighbors.Contains(this as SelectableTile) && !GameManager.Instance.PlayerShip.CurrentTile.FullNeighbors.Contains(this as SelectableTile)) {
+						Animate ();
+						PlayerShip.Instance.MakePlayerTurn ();
+						MoveShipHere (true);
+						Deanimate ();	
+						Player.Instance.UseArtifact ();
+						return;
+					}
+				}
+			}
+
 			if (!GameManager.Instance.PlayerShip.CurrentTile.Neighbors.Contains ((this as SelectableTile))) {
 				return;
 			}
 
 			Animate ();
 			PlayerShip.Instance.MakePlayerTurn ();
-			MoveShipHere ();
+			MoveShipHere (false);
 			Deanimate ();		
 		}
 	}

@@ -34,6 +34,7 @@ public class UIOverlay : MonoBehaviour {
 	public AltFarmWindow AltFarmWindow;
 
 	public GameObject MapNode;
+	public Button UseArtifactButton;
 
 	void Awake () {
 		if (Instance == null) {			
@@ -41,6 +42,15 @@ public class UIOverlay : MonoBehaviour {
 		} else if (Instance != this) {
 			Destroy (gameObject);  
 		}
+		UseArtifactButton.gameObject.GetComponentInChildren<Text>().text = "Use (" + Player.Instance.ActiveArtifact.CurrentCooldown + ")";
+	}
+
+
+
+	public void UseArtifact () {
+		Player.Instance.UseArtifact ();
+		UseArtifactButton.gameObject.GetComponentInChildren<Text>().text = "Use (" + Player.Instance.ActiveArtifact.CurrentCooldown + ")";
+		UseArtifactButton.enabled = false;
 	}
 
 	public GameObject FlyingRewardPrefab;

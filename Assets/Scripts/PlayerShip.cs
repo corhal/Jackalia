@@ -42,18 +42,10 @@ public class PlayerShip : MonoBehaviour {
 		// RewardChests = new List<RewardChest> ();
 	}
 
-	//public bool AlreadyCaught;
 	void Mover_OnFinishedMoving (MoveOnClick sender) {
-		//AlreadyCaught = false;
 		if (lastSeenCollider == null) {
 			return;
-		}  /*else if (lastSeenCollider.gameObject.GetComponent<EnemyShip> () != null && !AlreadyCaught) {
-			AlreadyCaught = true;
-			SelectableTile portalTile = Board.Instance.FindTileWithPOIKind (POIkind.Portal);
-			PlayerShip.Instance.MoveToTile (portalTile, false, true);
-			PlayerShip.Instance.ShowFlyingText (("-" + lastSeenCollider.gameObject.GetComponent<EnemyShip> ().EnergyDamage), Color.red);
-			Player.Instance.Energy -= lastSeenCollider.gameObject.GetComponent<EnemyShip> ().EnergyDamage;
-		}*/
+		} 
 	}
 
 	void Start () {
@@ -161,6 +153,13 @@ public class PlayerShip : MonoBehaviour {
 	}
 
 	public void MakePlayerTurn () {
+		if (Player.Instance.ActiveArtifact.CurrentCooldown > 0) {
+			Player.Instance.ActiveArtifact.CurrentCooldown--;
+		} 
+		if (Player.Instance.ActiveArtifact.CurrentCooldown <= 0) {
+			UIOverlay.Instance.UseArtifactButton.enabled = true;
+		}
+		UIOverlay.Instance.UseArtifactButton.gameObject.GetComponentInChildren<Text>().text = "Use (" + Player.Instance.ActiveArtifact.CurrentCooldown + ")";
 		if (OnPlayerTurn != null) {
 			OnPlayerTurn (this);
 		}
