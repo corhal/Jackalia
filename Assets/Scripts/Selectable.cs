@@ -111,6 +111,12 @@ public class Selectable : MonoBehaviour {
 				}
 			}
 
+			if (Player.Instance.ActiveArtifact.Name == "Scry" && Player.Instance.ActiveArtifact.IsActivated) {
+				(this as SelectableTile).StopParticles ();
+				Player.Instance.UseArtifact ();
+				return;
+			}
+
 			if (!GameManager.Instance.PlayerShip.CurrentTile.Neighbors.Contains ((this as SelectableTile))) {
 				return;
 			}

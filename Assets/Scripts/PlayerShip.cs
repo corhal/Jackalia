@@ -159,7 +159,12 @@ public class PlayerShip : MonoBehaviour {
 		if (Player.Instance.ActiveArtifact.CurrentCooldown <= 0) {
 			UIOverlay.Instance.UseArtifactButton.enabled = true;
 		}
-		UIOverlay.Instance.UseArtifactButton.gameObject.GetComponentInChildren<Text>().text = "Use (" + Player.Instance.ActiveArtifact.CurrentCooldown + ")";
+		if (Player.Instance.ActiveArtifact.CurrentCooldown > 0) {
+			UIOverlay.Instance.UseArtifactButton.gameObject.GetComponentInChildren<Text>().text = "" + Player.Instance.ActiveArtifact.CurrentCooldown;
+		} else {
+			UIOverlay.Instance.UseArtifactButton.gameObject.GetComponentInChildren<Text> ().text = "";
+		}
+		UIOverlay.Instance.ArtifactCooldownSlider.value = Player.Instance.ActiveArtifact.CurrentCooldown;
 		if (OnPlayerTurn != null) {
 			OnPlayerTurn (this);
 		}

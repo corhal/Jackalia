@@ -35,6 +35,7 @@ public class UIOverlay : MonoBehaviour {
 
 	public GameObject MapNode;
 	public Button UseArtifactButton;
+	public Slider ArtifactCooldownSlider;
 
 	void Awake () {
 		if (Instance == null) {			
@@ -42,15 +43,34 @@ public class UIOverlay : MonoBehaviour {
 		} else if (Instance != this) {
 			Destroy (gameObject);  
 		}
-		UseArtifactButton.gameObject.GetComponentInChildren<Text>().text = "Use (" + Player.Instance.ActiveArtifact.CurrentCooldown + ")";
+		ArtifactCooldownSlider.maxValue = Player.Instance.ActiveArtifact.Cooldown;
+		UseArtifactButton.GetComponent<Image> ().sprite = Player.Instance.ActiveArtifact.Icon;
+		if (Player.Instance.ActiveArtifact.CurrentCooldown > 0) {
+			UseArtifactButton.gameObject.GetComponentInChildren<Text>().text = "" + Player.Instance.ActiveArtifact.CurrentCooldown;
+			ArtifactCooldownSlider.value = Player.Instance.ActiveArtifact.CurrentCooldown;
+		} else {
+			UseArtifactButton.gameObject.GetComponentInChildren<Text> ().text = "";
+		}
 	}
-
-
 
 	public void UseArtifact () {
 		Player.Instance.UseArtifact ();
-		UseArtifactButton.gameObject.GetComponentInChildren<Text>().text = "Use (" + Player.Instance.ActiveArtifact.CurrentCooldown + ")";
+		if (Player.Instance.ActiveArtifact.CurrentCooldown > 0) {
+			UseArtifactButton.gameObject.GetComponentInChildren<Text>().text = "" + Player.Instance.ActiveArtifact.CurrentCooldown;
+		} else {
+			UseArtifactButton.gameObject.GetComponentInChildren<Text> ().text = "";
+		}
+		ArtifactCooldownSlider.value = Player.Instance.ActiveArtifact.CurrentCooldown;
 		UseArtifactButton.enabled = false;
+		if (Player.Instance.ActiveArtifact.Name == "Reveal") {
+			RevealArtifact ();
+		}
+	}
+
+	public void RevealArtifact () {
+		foreach (var neighborTile in PlayerShip.Instance.CurrentTile.FullNeighbors) {
+			neighborTile.StopParticles ();
+		}
 	}
 
 	public GameObject FlyingRewardPrefab;

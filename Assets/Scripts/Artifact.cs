@@ -11,6 +11,8 @@ public class Artifact : MonoBehaviour {
 	public int Cooldown;
 	public int CurrentCooldown;
 
+	public Sprite Icon;
+
 	public void Use () {
 		CurrentCooldown = Cooldown;
 		IsActivated = !IsActivated;

@@ -89,7 +89,6 @@ public class Player : MonoBehaviour {
 
 	void Start () {
 		CurrentAdventure = Adventures [0];
-		ActiveArtifact = Artifacts [0];
 	}
 
 	public void UseArtifact () {
