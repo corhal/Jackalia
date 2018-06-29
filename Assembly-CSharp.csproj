@@ -149,6 +149,7 @@
      <Compile Include="Assets\Scripts\UI\Windows\AdventureSelectionWindow.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\AdventureWindow.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\AltFarmWindow.cs" />
+     <Compile Include="Assets\Scripts\UI\Windows\ArtifactsBuyPopUp.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\ContextButtonsOverlay.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\EnergyPopup.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\ImagesPopUp.cs" />

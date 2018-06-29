@@ -101,6 +101,7 @@ public class GameManager : MonoBehaviour {
 
 				for (int i = 0; i < Player.Instance.BuildingsToSavePrefabs.Count; i++) {
 					GameObject building = Instantiate (Player.Instance.BuildingsToSavePrefabs [i]) as GameObject;
+					building.GetComponent<SpriteRenderer> ().sprite = Player.Instance.DataBase.BuildingsByNames [Player.Instance.BuildingNamesToDestroy [i]];
 					building.transform.position = Player.Instance.CoordsToSave [i];
 				}
 			}

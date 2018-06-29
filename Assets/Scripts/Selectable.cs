@@ -105,7 +105,7 @@ public class Selectable : MonoBehaviour {
 						PlayerShip.Instance.MakePlayerTurn ();
 						MoveShipHere (true);
 						Deanimate ();	
-						Player.Instance.UseArtifact ();
+						Player.Instance.ActiveArtifact.Use ();
 						return;
 					}
 				}
@@ -113,7 +113,7 @@ public class Selectable : MonoBehaviour {
 
 			if (Player.Instance.ActiveArtifact.Name == "Scry" && Player.Instance.ActiveArtifact.IsActivated) {
 				(this as SelectableTile).StopParticles ();
-				Player.Instance.UseArtifact ();
+				Player.Instance.ActiveArtifact.Use ();
 				return;
 			}
 

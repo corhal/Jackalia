@@ -32,10 +32,11 @@ public class UIOverlay : MonoBehaviour {
 	public AdventureWindow AdventureWindow;
 	public EnergyPopup EnergyPopup;
 	public AltFarmWindow AltFarmWindow;
+	public ArtifactsBuyPopUp ArtifactsBuyPopUp;
 
 	public GameObject MapNode;
-	public Button UseArtifactButton;
-	public Slider ArtifactCooldownSlider;
+	public List<Button> UseArtifactButtons;
+	public List<Slider> ArtifactCooldownSliders;
 
 	void Awake () {
 		if (Instance == null) {			
@@ -43,25 +44,33 @@ public class UIOverlay : MonoBehaviour {
 		} else if (Instance != this) {
 			Destroy (gameObject);  
 		}
-		ArtifactCooldownSlider.maxValue = Player.Instance.ActiveArtifact.Cooldown;
-		UseArtifactButton.GetComponent<Image> ().sprite = Player.Instance.ActiveArtifact.Icon;
-		if (Player.Instance.ActiveArtifact.CurrentCooldown > 0) {
-			UseArtifactButton.gameObject.GetComponentInChildren<Text>().text = "" + Player.Instance.ActiveArtifact.CurrentCooldown;
-			ArtifactCooldownSlider.value = Player.Instance.ActiveArtifact.CurrentCooldown;
-		} else {
-			UseArtifactButton.gameObject.GetComponentInChildren<Text> ().text = "";
+	}
+
+	public void RefreshArtifactsCooldown () {
+		for (int i = 0; i < Player.Instance.Artifacts.Count; i++) {
+			UseArtifactButtons [i].gameObject.GetComponentInChildren<Text> ().text = "x" + Player.Instance.Inventory [Player.Instance.Artifacts [i].Name];
+			/*if (Player.Instance.Artifacts [i].CurrentCooldown > 0) {
+				Player.Instance.Artifacts [i].CurrentCooldown--;
+			} 
+			if (Player.Instance.Artifacts [i].CurrentCooldown <= 0) {
+				UIOverlay.Instance.UseArtifactButtons [i].enabled = true;
+			}
+
+			ArtifactCooldownSliders [i].maxValue = Player.Instance.Artifacts [i].Cooldown;
+			UseArtifactButtons [i].GetComponent<Image> ().sprite = Player.Instance.Artifacts [i].Icon;
+			if (Player.Instance.Artifacts [i].CurrentCooldown > 0) {
+				UseArtifactButtons [i].gameObject.GetComponentInChildren<Text>().text = "" + Player.Instance.ActiveArtifact.CurrentCooldown;
+				ArtifactCooldownSliders [i].value = Player.Instance.ActiveArtifact.CurrentCooldown;
+			} else {
+				UseArtifactButtons [i].gameObject.GetComponentInChildren<Text> ().text = "";
+			}*/
 		}
 	}
 
-	public void UseArtifact () {
-		Player.Instance.UseArtifact ();
-		if (Player.Instance.ActiveArtifact.CurrentCooldown > 0) {
-			UseArtifactButton.gameObject.GetComponentInChildren<Text>().text = "" + Player.Instance.ActiveArtifact.CurrentCooldown;
-		} else {
-			UseArtifactButton.gameObject.GetComponentInChildren<Text> ().text = "";
-		}
-		ArtifactCooldownSlider.value = Player.Instance.ActiveArtifact.CurrentCooldown;
-		UseArtifactButton.enabled = false;
+	public void UseArtifact (int index) {
+		Player.Instance.UseArtifact (index);
+		RefreshArtifactsCooldown ();
+		// UseArtifactButtons [index].enabled = false;
 		if (Player.Instance.ActiveArtifact.Name == "Reveal") {
 			RevealArtifact ();
 		}
@@ -119,6 +128,11 @@ public class UIOverlay : MonoBehaviour {
 				hideObject.SetActive (false);
 			}
 		}
+		for (int i = 0; i < Player.Instance.Artifacts.Count; i++) {		
+			UseArtifactButtons [i].GetComponent<Image> ().sprite = Player.Instance.Artifacts [i].Icon;
+			UseArtifactButtons [i].gameObject.GetComponentInChildren<Text> ().text = "" + Player.Instance.Inventory [Player.Instance.Artifacts [i].Name];
+		}
+		RefreshArtifactsCooldown ();
 	}
 
 	void Update () { // OMG
@@ -204,6 +218,15 @@ public class UIOverlay : MonoBehaviour {
 
 	public void OpenEnergyPopup () {
 		EnergyPopup.Open ();
+		AdventureWindow.Close ();
+		AdventureSelectionWindow.Close ();
+		MyButtonsOverlay.Close ();
+		MyPopUp.Close ();
+	}
+
+	public void OpenArtifactsBuyPopUp (int index) {
+		ArtifactsBuyPopUp.Open (index);
+		EnergyPopup.Close ();
 		AdventureWindow.Close ();
 		AdventureSelectionWindow.Close ();
 		MyButtonsOverlay.Close ();

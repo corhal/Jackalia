@@ -91,8 +91,14 @@ public class Player : MonoBehaviour {
 		CurrentAdventure = Adventures [0];
 	}
 
-	public void UseArtifact () {
-		ActiveArtifact.Use ();
+	public void UseArtifact (int index) {
+		if (Inventory [Artifacts [index].Name] > 0) {
+			Inventory [Artifacts [index].Name]--;
+			ActiveArtifact = Artifacts [index];
+			ActiveArtifact.Use ();
+		} else {
+			UIOverlay.Instance.OpenArtifactsBuyPopUp (index);
+		}
 	}
 
 	float timer = 0.0f;

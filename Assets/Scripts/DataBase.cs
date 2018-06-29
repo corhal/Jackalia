@@ -15,6 +15,13 @@ public class DataBase : MonoBehaviour {
 	public List<Sprite> ActionIcons;
 	public List<string> ActionNames;
 
+	public List<string> BuildingNames;
+	public List<Sprite> BrokenBuildings;
+	public List<Sprite> Buildings;
+
+	public Dictionary<string, Sprite> BrokenBuildingsByNames;
+	public Dictionary<string, Sprite> BuildingsByNames;
+
 	public Dictionary<string, Sprite> CreaturePortraitsByNames;
 	public List<Sprite> CreaturePortraits;
 	public List<string> CreatureNames = new List<string> {
@@ -62,6 +69,13 @@ public class DataBase : MonoBehaviour {
 		for (int i = 0; i < CreaturePortraits.Count; i++) {
 			CreaturePortraitsByNames.Add (CreatureNames [i], CreaturePortraits [i]);
 		}
+
+		BrokenBuildingsByNames = new Dictionary<string, Sprite> ();
+		BuildingsByNames = new Dictionary<string, Sprite> ();
+		for (int i = 0; i < BuildingNames.Count; i++) {
+			BrokenBuildingsByNames.Add (BuildingNames [i], BrokenBuildings [i]);
+			BuildingsByNames.Add (BuildingNames [i], Buildings [i]);
+		}
 	}
 
 	void Start () {
@@ -100,6 +114,10 @@ public class DataBase : MonoBehaviour {
 		Player.Instance.TakeItems (new Dictionary<string, int> { { "Silver lockpick", 0 } });
 		Player.Instance.TakeItems (new Dictionary<string, int> { { "Golden lockpick", 0 } });
 		Player.Instance.TakeItems (new Dictionary<string, int> { { "Exp", 0 } });
+
+		foreach (var artifact in Player.Instance.Artifacts) {
+			Player.Instance.TakeItems (new Dictionary<string, int> { { artifact.Name, 2 } });
+		}
 		/*Player.Instance.TakeItems (new Dictionary<string, int> { { "Small healing potion", 2 } });
 		Player.Instance.TakeItems (new Dictionary<string, int> { { "Medium healing potion", 0 } });
 		Player.Instance.TakeItems (new Dictionary<string, int> { { "Big healing potion", 0 } });*/

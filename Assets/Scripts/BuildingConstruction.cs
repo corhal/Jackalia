@@ -22,6 +22,7 @@ public class BuildingConstruction : Selectable {
 		base.Awake ();
 		Action buildAction = new Action("Build", BuildCost, player.DataBase.ActionIconsByNames["Info"], Build);
 		actions.Add (buildAction);
+		GetComponent<SpriteRenderer> ().sprite = Player.Instance.DataBase.BrokenBuildingsByNames [Name];
 	}
 
 	protected override void Start () {
@@ -54,6 +55,7 @@ public class BuildingConstruction : Selectable {
 	public void FinishBuilding () {
 		GameObject resultBuilding = Instantiate (BuildingResultPrefab) as GameObject;
 		resultBuilding.transform.position = transform.position;
+		resultBuilding.GetComponent<SpriteRenderer> ().sprite = Player.Instance.DataBase.BuildingsByNames [Name];
 		Player.Instance.BuildingsToSavePrefabs.Add (BuildingResultPrefab);
 		Player.Instance.CoordsToSave.Add (transform.position);
 		Player.Instance.BuildingNamesToDestroy.Add (Name);
