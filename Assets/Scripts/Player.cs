@@ -22,7 +22,7 @@ public class Player : MonoBehaviour {
 
 	public List<Mission> Missions;
 	public Mission CurrentMission;
-	public List<CreatureData> ShipDatas;
+	// public List<CreatureData> ShipDatas;
 	public bool FirstLoad = true;
 	public static Player Instance;
 
@@ -71,6 +71,9 @@ public class Player : MonoBehaviour {
 	public List<Artifact> Artifacts;
 	public Artifact ActiveArtifact;
 
+	public ShipData CurrentShipData;
+	public List<ShipData> ShipDatas;
+
 	void Awake () {
 		if (Instance == null) {			
 			Instance = this;
@@ -89,6 +92,11 @@ public class Player : MonoBehaviour {
 
 	void Start () {
 		CurrentAdventure = Adventures [0];
+		foreach (var shipData in ShipDatas) {
+			Inventory.Add (shipData.Name, 0);
+			DataBase.ItemIconsByNames.Add (shipData.Name, shipData.Sprite);
+		}
+		CurrentShipData = ShipDatas [0];
 	}
 
 	public void UseArtifact (int index) {
@@ -128,41 +136,7 @@ public class Player : MonoBehaviour {
 
 	public void CreateShipDatas () {
 		// CurrentTeam = new List<CreatureData> (5);
-		ShipDatas.Clear ();
 
-		List<BJCreature> creatures = BJDataBase.Creatures;
-		for (int j = 0; j < creatures.Count; j++) {
-			bool summoned = (j >= 0 && j < 5) ? true : false;
-
-			List<Skill> skills = new List<Skill> ();
-			foreach (var skillName in creatures[j].SkillNames) {
-				
-				skills.Add (BJDataBase.SkillsByNames [skillName]);
-			}
-			Sprite soulstoneSprite = null;
-			if (Player.Instance.BJDataBase.CreaturePortraitsByNames.ContainsKey (creatures [j].Name)) {
-				soulstoneSprite = Player.Instance.BJDataBase.CreaturePortraitsByNames [creatures [j].Name];
-			}
-
-			Item soulstone = new Item ((creatures [j].Name + " soulstone"), soulstoneSprite);
-			if (!DataBase.ItemIconsByNames.ContainsKey (soulstone.Name)) {
-				DataBase.ItemIconsByNames.Add (soulstone.Name, soulstoneSprite);
-			}
-			if (!DataBase.TempItemLibrary.Contains (soulstone)) {
-				DataBase.TempItemLibrary.Add (soulstone);
-				DataBase.ItemsByNames.Add (soulstone.Name, soulstone);
-				Inventory.Add (soulstone.Name, 0);
-			}
-
-			CreatureData newShipData = new CreatureData (creatures [j], 1,
-				skills, soulstone, RankColor.White, summoned);
-
-			ShipDatas.Add (newShipData);
-		}
-		CurrentTeam.Clear ();
-		for (int i = 0; i < 4; i++) {
-			CurrentTeam.Add (ShipDatas [i]);
-		}
 	}
 
 	public void LoadBattle (int sceneIndex) {
@@ -173,7 +147,7 @@ public class Player : MonoBehaviour {
 	public void LoadVillage () {
 		Invoke ("ReloadChests", 0.1f);
 		FarmIndex = 0;
-		RewardChests.Clear ();
+		// RewardChests.Clear ();
 		PlayerShipRewardChests.Clear ();
 		for (int i = CurrentTeam.Count - 1; i >= 0; i--) {
 			if (CurrentTeam [i].IsDead) {
@@ -187,12 +161,24 @@ public class Player : MonoBehaviour {
 		SceneManager.LoadScene (0);
 		// Invoke ("ReceiveAdventureReward", 0.5f);
 		CurrentAdventure = Adventures [0];
+		Invoke ("ReceiveAdventureReward", 0.1f);
+	}
+
+	public void NoticeChests () {
+		foreach (var shipRewardChest in PlayerShipRewardChests) {
+			ChestsFound++;
+			RewardChests.Add (shipRewardChest);
+		}
+		Debug.Log (RewardChests.Count + "");
+		PlayerShipRewardChests.Clear ();
+		PlayerShip.Instance.CargoSlider.value = PlayerShipRewardChests.Count;
 	}
 
 	public void ReceiveAdventureReward () {
 		Dictionary<string, int> totalReward = new Dictionary<string, int> ();
+		Debug.Log (RewardChests.Count + "");
 		foreach (var rewardChest in RewardChests) {
-			ChestsFound++;
+			// ChestsFound++;
 			foreach (var rewardItem in rewardChest.RewardItems) {
 				if (!totalReward.ContainsKey(rewardItem.Key)) {
 					totalReward.Add (rewardItem.Key, rewardItem.Value);
@@ -206,8 +192,6 @@ public class Player : MonoBehaviour {
 		UIOverlay.Instance.OpenImagesPopUp ("Your reward:", totalReward);
 
 		RewardChests.Clear ();
-		PlayerShipRewardChests.Clear ();
-		PlayerShip.Instance.CargoSlider.value = RewardChests.Count;
 	}
 
 	public void BeginChestOpen (RewardChest rewardChest) {

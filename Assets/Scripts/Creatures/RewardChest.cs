@@ -5,7 +5,7 @@ using UnityEngine;
 public enum ChestState {
 	Closed, Opening, Open
 }
-// [System.Serializable]
+[System.Serializable]
 public class RewardChest {
 
 	public int SecondsLeft;
@@ -53,6 +53,13 @@ public class RewardChest {
 			possibleRewards.Add ("Exp", Random.Range (5, 10));	
 		} else if (roll > 0.95f) {
 			possibleRewards.Add ("Exp", 15);	
+		}
+
+		foreach (var shipData in Player.Instance.ShipDatas) {
+			if (Random.Range(0.0f, 1.0f) >= 0.3f) {
+				possibleRewards.Add (shipData.Name, Random.Range (1, 10));
+				break;
+			}
 		}
 
 		/*float roll = Random.Range (0.0f, 1.0f);

@@ -33,6 +33,7 @@ public class UIOverlay : MonoBehaviour {
 	public EnergyPopup EnergyPopup;
 	public AltFarmWindow AltFarmWindow;
 	public ArtifactsBuyPopUp ArtifactsBuyPopUp;
+	public ShipCatalogWindow ShipCatalogWindow;
 
 	public GameObject MapNode;
 	public List<Button> UseArtifactButtons;
@@ -211,6 +212,14 @@ public class UIOverlay : MonoBehaviour {
 
 	public void OpenAdventureWindow () {
 		AdventureWindow.Open ();
+		AdventureSelectionWindow.Close ();
+		MyButtonsOverlay.Close ();
+		MyPopUp.Close ();
+	}
+
+	public void OpenShipCatalogWindow () {
+		ShipCatalogWindow.Open ();
+		AdventureWindow.Close ();
 		AdventureSelectionWindow.Close ();
 		MyButtonsOverlay.Close ();
 		MyPopUp.Close ();

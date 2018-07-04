@@ -9,6 +9,7 @@ public class PlayerShip : MonoBehaviour {
 	public static PlayerShip Instance;
 	MoveOnClick mover;
 
+	public SpriteRenderer ShipSprite;
 	public int EnergyPerDistance;
 
 	public Collider2D lastSeenCollider;
@@ -60,6 +61,9 @@ public class PlayerShip : MonoBehaviour {
 		HideArrows ();
 		ShowArrows ();
 		CargoSlider.value = Player.Instance.RewardChests.Count;
+
+		ShipSprite.sprite = Player.Instance.CurrentShipData.Sprite;
+
 	}
 
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through
@@ -146,8 +150,10 @@ public class PlayerShip : MonoBehaviour {
 	}
 
 	public void TakeChestReward (RewardChest rewardChest) {
-		Player.Instance.RewardChests.Add (rewardChest);
-		CargoSlider.value = Player.Instance.RewardChests.Count;
+		Player.Instance.PlayerShipRewardChests.Add (rewardChest);
+		CargoSlider.value = Player.Instance.PlayerShipRewardChests.Count;
+		//Player.Instance.RewardChests.Add (rewardChest);
+		// CargoSlider.value = Player.Instance.RewardChests.Count;
 		//Player.Instance.OpenChest (rewardChest);
 		//Player.Instance.RewardChests.Add (rewardChest);
 	}

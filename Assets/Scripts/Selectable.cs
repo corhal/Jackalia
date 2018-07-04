@@ -91,7 +91,7 @@ public class Selectable : MonoBehaviour {
 
 	void OnMouseUp () {
 		Invoke ("RealClick", 0.1f);
-		if (!Player.Instance.OnAdventure) {
+		if (!Player.Instance.OnAdventure && !Utility.IsPointerOverUIObject ()) {
 			uiManager.OpenContextButtons (this);
 		}
 	}

@@ -112,6 +112,7 @@
      <Compile Include="Assets\Scripts\CameraDrag.cs" />
      <Compile Include="Assets\Scripts\Creatures\CreatureData.cs" />
      <Compile Include="Assets\Scripts\Creatures\RewardChest.cs" />
+     <Compile Include="Assets\Scripts\Creatures\ShipData.cs" />
      <Compile Include="Assets\Scripts\Creatures\Skill.cs" />
      <Compile Include="Assets\Scripts\CSVReader.cs" />
      <Compile Include="Assets\Scripts\DataBase.cs" />
@@ -138,14 +139,8 @@
      <Compile Include="Assets\Scripts\Selectable.cs" />
      <Compile Include="Assets\Scripts\SelectableTile.cs" />
      <Compile Include="Assets\Scripts\Shipment.cs" />
-     <Compile Include="Assets\Scripts\UI\Elements\ChestButton.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\ContextButton.cs" />
-     <Compile Include="Assets\Scripts\UI\Elements\CraftElement.cs" />
-     <Compile Include="Assets\Scripts\UI\Elements\LockpickElement.cs" />
-     <Compile Include="Assets\Scripts\UI\Elements\ShipElement.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\ShipListElement.cs" />
-     <Compile Include="Assets\Scripts\UI\Elements\ShipSkillButton.cs" />
-     <Compile Include="Assets\Scripts\UI\Elements\SkillElement.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\AdventureSelectionWindow.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\AdventureWindow.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\AltFarmWindow.cs" />
@@ -155,6 +150,7 @@
      <Compile Include="Assets\Scripts\UI\Windows\ImagesPopUp.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\ModalPopUp.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\PopUp.cs" />
+     <Compile Include="Assets\Scripts\UI\Windows\ShipCatalogWindow.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\UIOverlay.cs" />
      <Compile Include="Assets\Scripts\Utility.cs" />
  <Reference Include="Facebook.Unity.Settings">
