@@ -29,7 +29,7 @@ public class Chest : PointOfInterest {
 
 	void GiveReward () {
 		PlayerShip playerShip = GameManager.Instance.PlayerShip;
-		if (Player.Instance.RewardChests.Count < playerShip.RewardChestsCapacity) {			
+		if (Player.Instance.PlayerShipRewardChests.Count < playerShip.RewardChestsCapacity) {			
 			Interact ();
 			playerShip.TakeChestReward (RewardChest);
 			// Player.Instance.ReceiveChestReward (RewardChest);

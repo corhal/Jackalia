@@ -28,6 +28,7 @@ public class ShipCatalogWindow : MonoBehaviour {
 			shipListElement.CardsSlider.maxValue = Player.Instance.ShipDatas [i].CardsToUnlock;
 			shipListElement.CardsSlider.value = Player.Instance.Inventory [Player.Instance.ShipDatas [i].Name];
 			shipListElement.UnlockButtonLabel.text = "Unlock       " + Player.Instance.ShipDatas [i].GoldToUnlock;
+			shipListElement.ShipData = Player.Instance.ShipDatas [i];
 			if (Player.Instance.Inventory[Player.Instance.ShipDatas [i].Name] >= Player.Instance.ShipDatas [i].CardsToUnlock) {
 				shipListElement.CardsSlider.gameObject.SetActive (false);
 				shipListElement.UnlockButton.gameObject.SetActive (true);
@@ -35,6 +36,11 @@ public class ShipCatalogWindow : MonoBehaviour {
 			if (Player.Instance.ShipDatas [i].IsUnlocked) {
 				shipListElement.CardsSlider.gameObject.SetActive (false);
 				shipListElement.UnlockButton.gameObject.SetActive (false);
+				shipListElement.ChooseButton.gameObject.SetActive (true);
+			}
+			if (Player.Instance.CurrentShipData == Player.Instance.ShipDatas [i]) {
+				shipListElement.ChooseButton.gameObject.SetActive (false);
+				shipListElement.TickImage.gameObject.SetActive (true);
 			}
 
 			shipListElementObject.transform.SetParent (ShipElementsContainer.transform);

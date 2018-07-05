@@ -32,6 +32,10 @@ public class EnemyShip : MonoBehaviour {
 	}
 
 	void Mover_OnFinishedMoving (MoveOnClick sender) {
+		Invoke ("CheckPlayerShip", 0.1f);
+	}
+
+	void CheckPlayerShip () {
 		if (CaughtPlayerShip == null) {
 			return;
 		}

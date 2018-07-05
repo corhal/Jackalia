@@ -57,6 +57,9 @@ public class RewardChest {
 
 		foreach (var shipData in Player.Instance.ShipDatas) {
 			if (Random.Range(0.0f, 1.0f) >= 0.3f) {
+				if (shipData.IsUnlocked) {
+					continue;
+				}
 				possibleRewards.Add (shipData.Name, Random.Range (1, 10));
 				break;
 			}

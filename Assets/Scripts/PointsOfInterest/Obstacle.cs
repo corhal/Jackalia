@@ -19,6 +19,14 @@ public class Obstacle : PointOfInterest {
 	public override void Interact () {
 		if (!(POIData.OneTime && POIData.Interacted)) {
 			base.Interact ();
+
+			if (Player.Instance.CurrentShipData.Special == "Rewind" && Player.Instance.CurrentShipData.IsSpecialReady) {
+				Player.Instance.CurrentShipData.UseSpecial ();
+				PlayerShip.Instance.FallBack (false);
+				PlayerShip.Instance.ShowFlyingText ("Rewind!", Color.green);
+				return;
+			}
+
 			PlayerShip.Instance.ShowFlyingText (("-" + AdditionalRequiredEnergy), Color.red);
 			Player.Instance.Energy = Player.Instance.Energy - AdditionalRequiredEnergy;
 		}

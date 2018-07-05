@@ -39,6 +39,8 @@ public class UIOverlay : MonoBehaviour {
 	public List<Button> UseArtifactButtons;
 	public List<Slider> ArtifactCooldownSliders;
 
+	public GameObject SpecialIndicatorObject;
+
 	void Awake () {
 		if (Instance == null) {			
 			Instance = this;
@@ -50,21 +52,6 @@ public class UIOverlay : MonoBehaviour {
 	public void RefreshArtifactsCooldown () {
 		for (int i = 0; i < Player.Instance.Artifacts.Count; i++) {
 			UseArtifactButtons [i].gameObject.GetComponentInChildren<Text> ().text = "x" + Player.Instance.Inventory [Player.Instance.Artifacts [i].Name];
-			/*if (Player.Instance.Artifacts [i].CurrentCooldown > 0) {
-				Player.Instance.Artifacts [i].CurrentCooldown--;
-			} 
-			if (Player.Instance.Artifacts [i].CurrentCooldown <= 0) {
-				UIOverlay.Instance.UseArtifactButtons [i].enabled = true;
-			}
-
-			ArtifactCooldownSliders [i].maxValue = Player.Instance.Artifacts [i].Cooldown;
-			UseArtifactButtons [i].GetComponent<Image> ().sprite = Player.Instance.Artifacts [i].Icon;
-			if (Player.Instance.Artifacts [i].CurrentCooldown > 0) {
-				UseArtifactButtons [i].gameObject.GetComponentInChildren<Text>().text = "" + Player.Instance.ActiveArtifact.CurrentCooldown;
-				ArtifactCooldownSliders [i].value = Player.Instance.ActiveArtifact.CurrentCooldown;
-			} else {
-				UseArtifactButtons [i].gameObject.GetComponentInChildren<Text> ().text = "";
-			}*/
 		}
 	}
 
@@ -134,6 +121,8 @@ public class UIOverlay : MonoBehaviour {
 			UseArtifactButtons [i].gameObject.GetComponentInChildren<Text> ().text = "" + Player.Instance.Inventory [Player.Instance.Artifacts [i].Name];
 		}
 		RefreshArtifactsCooldown ();
+		SpecialIndicatorObject.GetComponentInChildren<Slider> ().maxValue = Player.Instance.CurrentShipData.SpecialCooldown;
+		SpecialIndicatorObject.GetComponentsInChildren<Image> () [1].sprite = Player.Instance.CurrentShipData.SpecialSprite; // есть фаталити, а есть костылити. это - костылити.
 	}
 
 	void Update () { // OMG
@@ -153,6 +142,12 @@ public class UIOverlay : MonoBehaviour {
 			TimeLabel.text = hours + ":" + minutes.ToString("D2") + ":" + seconds.ToString("D2");
 			if (player.CurrentAdventure.TreasureHunt) {
 				MapNode.GetComponentInChildren<Text> ().text = player.Inventory ["Map"] + "/" + player.CurrentAdventure.MapsForTreasure;
+			}
+
+			SpecialIndicatorObject.GetComponentInChildren<Slider> ().value = Player.Instance.CurrentShipData.SpecialCurrentCooldown;
+			SpecialIndicatorObject.GetComponentInChildren<Text> ().text = Player.Instance.CurrentShipData.SpecialCurrentCooldown + "";
+			if (Player.Instance.CurrentShipData.SpecialCurrentCooldown <= 0) {
+				SpecialIndicatorObject.GetComponentInChildren<Text> ().text = "";
 			}
 		}
 

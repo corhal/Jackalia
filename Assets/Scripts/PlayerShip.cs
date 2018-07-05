@@ -58,12 +58,23 @@ public class PlayerShip : MonoBehaviour {
 				CurrentTile = otherCollider.gameObject.GetComponent<SelectableTile> ();
 			}
 		}
+
+		if (Player.Instance.CurrentShipData.Special == "Diagonal") {
+			foreach (var arrow in Arrows) {
+				arrow.transform.RotateAround (transform.position, Vector3.forward, 45.0f);
+			}
+		}
+
 		HideArrows ();
 		ShowArrows ();
 		CargoSlider.value = Player.Instance.RewardChests.Count;
 
 		ShipSprite.sprite = Player.Instance.CurrentShipData.Sprite;
 
+		if (Player.Instance.CurrentShipData.Special == "Cargo") {
+			RewardChestsCapacity++;
+			CargoSlider.maxValue = RewardChestsCapacity;
+		}
 	}
 
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through
@@ -160,6 +171,7 @@ public class PlayerShip : MonoBehaviour {
 
 	public void MakePlayerTurn () {
 		UIOverlay.Instance.RefreshArtifactsCooldown ();
+		Player.Instance.CurrentShipData.TickSpecialCooldown ();
 		if (OnPlayerTurn != null) {
 			OnPlayerTurn (this);
 		}

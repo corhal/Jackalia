@@ -14,6 +14,7 @@ public class SelectableTile : Selectable {
 
 	public List<SelectableTile> Neighbors;
 	public List<SelectableTile> FullNeighbors;
+	public List<SelectableTile> DiagonalNeighbors;
 
 	protected override void Awake () {
 		base.Awake ();

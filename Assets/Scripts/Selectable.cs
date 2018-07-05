@@ -117,7 +117,11 @@ public class Selectable : MonoBehaviour {
 				return;
 			}
 
-			if (!GameManager.Instance.PlayerShip.CurrentTile.Neighbors.Contains ((this as SelectableTile))) {
+			if (Player.Instance.CurrentShipData.Special != "Diagonal" && !GameManager.Instance.PlayerShip.CurrentTile.Neighbors.Contains ((this as SelectableTile))) {
+				return;
+			}
+
+			if (Player.Instance.CurrentShipData.Special == "Diagonal" && !GameManager.Instance.PlayerShip.CurrentTile.DiagonalNeighbors.Contains ((this as SelectableTile))) {
 				return;
 			}
 
