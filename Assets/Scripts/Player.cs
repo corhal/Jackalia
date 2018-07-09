@@ -34,7 +34,7 @@ public class Player : MonoBehaviour {
 	public int Gold { get { return Inventory ["Gold"]; } }
 	public int Exp { get { return Inventory ["Exp"]; } }
 	public int Level = 1;
-	public List<int> ExpForLevel = new List<int> {0, 100, 500, 1000, 2000};
+	public List<int> ExpForLevel = new List<int> {0, 10, 100, 500, 1000};
 
 	public List<CreatureData> CurrentTeam;
 

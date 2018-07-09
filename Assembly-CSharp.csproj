@@ -139,6 +139,7 @@
      <Compile Include="Assets\Scripts\Selectable.cs" />
      <Compile Include="Assets\Scripts\SelectableTile.cs" />
      <Compile Include="Assets\Scripts\Shipment.cs" />
+     <Compile Include="Assets\Scripts\UI\Elements\Cloud.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\ContextButton.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\ShipListElement.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\AdventureSelectionWindow.cs" />
