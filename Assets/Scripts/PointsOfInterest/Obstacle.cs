@@ -22,8 +22,9 @@ public class Obstacle : PointOfInterest {
 
 			if (Player.Instance.CurrentShipData.Special == "Rewind" && Player.Instance.CurrentShipData.IsSpecialReady) {
 				Player.Instance.CurrentShipData.UseSpecial ();
-				PlayerShip.Instance.FallBack (false);
-				PlayerShip.Instance.ShowFlyingText ("Rewind!", Color.green);
+				PlayerShip.Instance.MoveToTile (Tile, false, false);
+				// PlayerShip.Instance.FallBack (false);
+				PlayerShip.Instance.ShowFlyingText ("Maneuver!", Color.green);
 				return;
 			}
 

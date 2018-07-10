@@ -21,6 +21,7 @@ public class Adventure {
 
 	public int MapsForTreasure;
 	public string Ocean;
+	public string RegionName;
 
 	public float RevealedTilesRatio;
 	public int TilesAmount { get { return (PosWidth - NegWidth + 1) * (PosHeight - NegHeight + 1); } }

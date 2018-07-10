@@ -13,7 +13,7 @@ public class PortalBuilding : Selectable {
 		
 
 	public void OpenAdventureWindow () {
-		uiManager.OpenAdventureWindow ();
+		// uiManager.OpenAdventureWindow ();
 	}
 
 }

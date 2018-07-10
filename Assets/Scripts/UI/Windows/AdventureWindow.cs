@@ -10,8 +10,10 @@ public class AdventureWindow : MonoBehaviour {
 
 	public Text FoodCostLabel;
 
-	public void Open () {		
+	public void Open (string regionName) {		
 		Window.SetActive (true);
+		Player.Instance.Adventures = Player.Instance.AdventuresByRegion [regionName];
+		Player.Instance.CurrentAdventure = Player.Instance.Adventures [0];
 		CountTiles ();
 	}
 

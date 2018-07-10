@@ -20,11 +20,29 @@ public class EnemyShip : MonoBehaviour {
 
 	public GameObject FlyingTextPrefab;
 
+	public BattleShip BattleShip;
+	public ParticleSystem ShootParticles;
+	public Vector3 InitialParticlesPosition;
+
 	void Awake () {
 		player = Player.Instance;
 		mover = GetComponent<MoveOnClick> ();
 		mover.OnFinishedMoving += Mover_OnFinishedMoving;
 		PlayerShip.Instance.OnPlayerTurn += PlayerShip_Instance_OnPlayerTurn;
+		BattleShip.OnDamageTaken += BattleShip_OnDamageTaken;
+		BattleShip.OnAttackedTarget += BattleShip_OnAttackedTarget;
+	}
+
+	void BattleShip_OnDamageTaken (BattleShip sender, int amount) {
+		ShowFlyingText ("-" + amount + " HP", Color.red);
+		if (sender.HP <= 0) {
+			Destroy (gameObject);
+		}
+	}
+
+	void BattleShip_OnAttackedTarget (BattleShip sender) {
+		ShootParticles.gameObject.transform.position = new Vector3 (InitialParticlesPosition.x + Random.Range (-0.5f, 0.5f), InitialParticlesPosition.y + Random.Range (-0.5f, 0.5f), InitialParticlesPosition.z);
+		ShootParticles.Play ();
 	}
 
 	void PlayerShip_Instance_OnPlayerTurn (PlayerShip sender) {
@@ -40,10 +58,14 @@ public class EnemyShip : MonoBehaviour {
 			return;
 		}
 		if (CaughtPlayerShip != null) {
-			SelectableTile portalTile = Board.Instance.FindTileWithPOIKind (POIkind.Portal);
-			CaughtPlayerShip.MoveToTile (portalTile, false, true);
-			CaughtPlayerShip.ShowFlyingText (("-" + EnergyDamage), Color.red);
-			Player.Instance.Energy -= EnergyDamage;
+			//SelectableTile portalTile = Board.Instance.FindTileWithPOIKind (POIkind.Portal);
+			//CaughtPlayerShip.MoveToTile (portalTile, false, true);
+			//CaughtPlayerShip.ShowFlyingText (("-" + EnergyDamage), Color.red);
+			//Player.Instance.Energy -= EnergyDamage;
+			InitialParticlesPosition = ShootParticles.gameObject.transform.position;
+			CaughtPlayerShip.InitialParticlesPosition = CaughtPlayerShip.ShootParticles.gameObject.transform.position;
+			BattleShip.Target = CaughtPlayerShip.BattleShip;
+			CaughtPlayerShip.BattleShip.Target = BattleShip;
 		}
 	}
 
@@ -56,6 +78,11 @@ public class EnemyShip : MonoBehaviour {
 				CurrentTile = otherCollider.gameObject.GetComponent<SelectableTile> ();
 			}
 		}
+		InitialParticlesPosition = ShootParticles.gameObject.transform.position;
+	}
+
+	void Update () {
+		BattleShip.Tick (Time.deltaTime);
 	}
 
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through
@@ -67,6 +94,8 @@ public class EnemyShip : MonoBehaviour {
 
 	void OnTriggerExit2D (Collider2D other) {
 		if (other.GetComponent<PlayerShip> () != null && other.GetComponent<PlayerShip> () == CaughtPlayerShip) {
+			BattleShip.Target = null;
+			CaughtPlayerShip.BattleShip.Target = null;
 			CaughtPlayerShip = null;
 		}
 	}
@@ -112,7 +141,10 @@ public class EnemyShip : MonoBehaviour {
 	}
 
 	public void MoveRandomly () {
-		int index = Random.Range (0, CurrentTile.Neighbors.Count);
-		MoveToTile (CurrentTile.Neighbors [index], false, false);
+		float coinToss = Random.Range (0.0f, 1.0f);
+		if (coinToss >= 0.5f) {
+			int index = Random.Range (0, CurrentTile.Neighbors.Count);
+			MoveToTile (CurrentTile.Neighbors [index], false, false);
+		}
 	}
 }

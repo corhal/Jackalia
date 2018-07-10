@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour {
 	public static GameManager Instance;
 
 	public bool CameraDragged;
+	public List<Region> Regions;
 
 	public void MoveMode () {
 		InMoveMode = true;
@@ -103,6 +104,20 @@ public class GameManager : MonoBehaviour {
 					GameObject building = Instantiate (Player.Instance.BuildingsToSavePrefabs [i]) as GameObject;
 					building.GetComponent<SpriteRenderer> ().sprite = Player.Instance.DataBase.BuildingsByNames [Player.Instance.BuildingNamesToDestroy [i]];
 					building.transform.position = Player.Instance.CoordsToSave [i];
+				}
+
+				foreach (var region in Regions) {
+					foreach (var regionCloudCount in Player.Instance.RegionCloudCounts) {
+						if (region.Name == regionCloudCount.Key) {
+							if (regionCloudCount.Value == 0) {
+								region.Unlock ();
+							} else {
+								while (region.Clouds.Count > regionCloudCount.Value) {
+									region.Clouds.RemoveAt (0);
+								}
+							}
+						}
+					}
 				}
 			}
 

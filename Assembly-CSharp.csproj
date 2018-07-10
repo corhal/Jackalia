@@ -107,6 +107,7 @@
      <Compile Include="Assets\Scripts\BattleJack\Cards\BJCard.cs" />
      <Compile Include="Assets\Scripts\BattleJack\Cards\BJCardObject.cs" />
      <Compile Include="Assets\Scripts\BattleJack\UIController.cs" />
+     <Compile Include="Assets\Scripts\BattleShip.cs" />
      <Compile Include="Assets\Scripts\Board.cs" />
      <Compile Include="Assets\Scripts\BuildingConstruction.cs" />
      <Compile Include="Assets\Scripts\CameraDrag.cs" />
@@ -136,6 +137,7 @@
      <Compile Include="Assets\Scripts\PointsOfInterest\PointOfInterest.cs" />
      <Compile Include="Assets\Scripts\PointsOfInterest\Portal.cs" />
      <Compile Include="Assets\Scripts\PortalBuilding.cs" />
+     <Compile Include="Assets\Scripts\Region.cs" />
      <Compile Include="Assets\Scripts\Selectable.cs" />
      <Compile Include="Assets\Scripts\SelectableTile.cs" />
      <Compile Include="Assets\Scripts\Shipment.cs" />

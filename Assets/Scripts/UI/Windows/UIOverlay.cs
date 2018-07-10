@@ -49,6 +49,10 @@ public class UIOverlay : MonoBehaviour {
 		}
 	}
 
+	public void CheatGold () {
+		Player.Instance.TakeGold (1000);
+	}
+
 	public void RefreshArtifactsCooldown () {
 		for (int i = 0; i < Player.Instance.Artifacts.Count; i++) {
 			UseArtifactButtons [i].gameObject.GetComponentInChildren<Text> ().text = "x" + Player.Instance.Inventory [Player.Instance.Artifacts [i].Name];
@@ -205,8 +209,8 @@ public class UIOverlay : MonoBehaviour {
 		}
 	}
 
-	public void OpenAdventureWindow () {
-		AdventureWindow.Open ();
+	public void OpenAdventureWindow (string regionName) {
+		AdventureWindow.Open (regionName);
 		AdventureSelectionWindow.Close ();
 		MyButtonsOverlay.Close ();
 		MyPopUp.Close ();

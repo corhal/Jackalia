@@ -30,6 +30,12 @@ public class PlayerShip : MonoBehaviour {
 	public delegate void PlayerTurn (PlayerShip sender);
 	public event PlayerTurn OnPlayerTurn;
 
+	public BattleShip BattleShip;
+	public EnemyShip CaughtEnemyShip;
+
+	public Vector3 InitialParticlesPosition;
+	public ParticleSystem ShootParticles;
+
 	void Awake () {
 		if (Instance == null) {			
 			Instance = this;
@@ -41,12 +47,41 @@ public class PlayerShip : MonoBehaviour {
 		mover.OnFinishedMoving += Mover_OnFinishedMoving;
 		CargoSlider.maxValue = RewardChestsCapacity;
 		// RewardChests = new List<RewardChest> ();
+		BattleShip.OnDamageTaken += BattleShip_OnDamageTaken;
+		BattleShip.OnAttackedTarget += BattleShip_OnAttackedTarget;
+		InitialParticlesPosition = ShootParticles.gameObject.transform.position;
+	}
+
+	void BattleShip_OnAttackedTarget (BattleShip sender) {
+		ShootParticles.gameObject.transform.position = new Vector3 (InitialParticlesPosition.x + Random.Range (-0.5f, 0.5f), InitialParticlesPosition.y + Random.Range (-0.5f, 0.5f), InitialParticlesPosition.z);
+		ShootParticles.Play ();
+	}
+
+	void BattleShip_OnDamageTaken (BattleShip sender, int amount) {
+		ShowFlyingText ("-" + amount + " HP", Color.red);
 	}
 
 	void Mover_OnFinishedMoving (MoveOnClick sender) {
+		Invoke ("CheckEnemyShip", 0.1f);
 		if (lastSeenCollider == null) {
 			return;
 		} 
+	}
+
+	void CheckEnemyShip () {
+		if (CaughtEnemyShip == null) {
+			return;
+		}
+		if (CaughtEnemyShip != null) {
+			//SelectableTile portalTile = Board.Instance.FindTileWithPOIKind (POIkind.Portal);
+			//CaughtPlayerShip.MoveToTile (portalTile, false, true);
+			//CaughtPlayerShip.ShowFlyingText (("-" + EnergyDamage), Color.red);
+			//Player.Instance.Energy -= EnergyDamage;
+			InitialParticlesPosition = ShootParticles.gameObject.transform.position;
+			CaughtEnemyShip.InitialParticlesPosition = CaughtEnemyShip.ShootParticles.gameObject.transform.position;
+			BattleShip.Target = CaughtEnemyShip.BattleShip;
+			CaughtEnemyShip.BattleShip.Target = BattleShip;
+		}
 	}
 
 	void Start () {
@@ -77,15 +112,27 @@ public class PlayerShip : MonoBehaviour {
 		}
 	}
 
+	void Update () {
+		BattleShip.Tick (Time.deltaTime);
+	}
+
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through
 		if (other.GetComponent<SelectableTile> () == null && other.GetComponentInParent<SelectableTile> () == null) {
 			lastSeenCollider = other;
+		}
+		if (other.GetComponent<EnemyShip> () != null) {
+			CaughtEnemyShip = other.GetComponent<EnemyShip> ();
 		}
 	}
 
 	void OnTriggerExit2D (Collider2D other) {
 		if (lastSeenCollider == other) {
 			lastSeenCollider = null;
+		}
+		if (other.GetComponent<EnemyShip> () != null) {
+			BattleShip.Target = null;
+			CaughtEnemyShip.BattleShip.Target = null;
+			CaughtEnemyShip = null;
 		}
 	}
 

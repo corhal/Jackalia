@@ -11,6 +11,12 @@ public class Cloud : MonoBehaviour {
 	public int Cost;
 	public int LevelRequirement;
 
+	public Region Region;
+
+	void Awake () {
+		Region = GetComponentInParent<Region> ();
+	}
+
 	void Start () {
 		LevelTooltipObject.GetComponentInChildren<Text> ().text = LevelRequirement + "";
 		CostTooltipObject.GetComponentInChildren<Text> ().text = Cost + "";
@@ -34,7 +40,7 @@ public class Cloud : MonoBehaviour {
 	public void TryReveal () {
 		if (Player.Instance.Gold >= Cost) {
 			Player.Instance.GiveGold (Cost);
-			Destroy (gameObject);
+			Region.DestroyCloud (this);
 		} else {
 			UIOverlay.Instance.OpenPopUp ("Not enough gold!");
 			CostTooltipObject.SetActive (false);

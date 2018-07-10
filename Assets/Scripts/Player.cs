@@ -9,6 +9,8 @@ public class Player : MonoBehaviour {
 
 	public Adventure CurrentAdventure;
 
+	public Dictionary<string, List<Adventure>> AdventuresByRegion;
+
 	public int MaxEnergy;
 	public int Energy;
 
@@ -74,6 +76,8 @@ public class Player : MonoBehaviour {
 	public ShipData CurrentShipData;
 	public List<ShipData> ShipDatas;
 
+	public Dictionary<string, int> RegionCloudCounts;
+
 	void Awake () {
 		if (Instance == null) {			
 			Instance = this;
@@ -92,11 +96,22 @@ public class Player : MonoBehaviour {
 
 	void Start () {
 		CurrentAdventure = Adventures [0];
+		AdventuresByRegion = new Dictionary<string, List<Adventure>> ();
+		foreach (var adventure in Adventures) {
+			if (!AdventuresByRegion.ContainsKey (adventure.RegionName)) {
+				AdventuresByRegion [adventure.RegionName] = new List<Adventure> ();
+			}
+			AdventuresByRegion [adventure.RegionName].Add (adventure);
+		}
 		foreach (var shipData in ShipDatas) {
 			Inventory.Add (shipData.Name, 0);
 			DataBase.ItemIconsByNames.Add (shipData.Name, shipData.Sprite);
 		}
 		CurrentShipData = ShipDatas [0];
+		RegionCloudCounts = new Dictionary<string, int> ();
+		foreach (var region in GameManager.Instance.Regions) {
+			RegionCloudCounts.Add (region.Name, region.Clouds.Count);
+		}
 	}
 
 	public void UseArtifact (int index) {
