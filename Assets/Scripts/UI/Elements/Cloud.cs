@@ -23,7 +23,7 @@ public class Cloud : MonoBehaviour {
 	}
 
 	public void Tap () {		
-		if (Player.Instance.Level >= LevelRequirement) {
+		/*if (Player.Instance.Level >= LevelRequirement) {
 			if (!CostTooltipObject.activeSelf) {
 				CostTooltipObject.SetActive (true);
 			} else {
@@ -34,7 +34,8 @@ public class Cloud : MonoBehaviour {
 		} else {
 			// UIOverlay.Instance.OpenPopUp ("Level too low!");
 			LevelTooltipObject.SetActive (false);
-		}
+		}*/
+		UIOverlay.Instance.OpenRegionPopUp (Region);
 	}
 
 	public void TryReveal () {

@@ -12,7 +12,12 @@ public class ShipData {
 
 	public bool IsUnlocked;
 
+	public int HP;
+	public int Attack;
+	public float AttackSpeed;
+
 	public string Special;
+	public string SpecialInfo;
 	public int SpecialCooldown;
 	public int SpecialCurrentCooldown;
 	public Sprite SpecialSprite;

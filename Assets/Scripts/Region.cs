@@ -5,6 +5,7 @@ using UnityEngine;
 public class Region : MonoBehaviour {
 
 	public string Name;
+	public int InitialCloudsAmount;
 
 	public List<Cloud> Clouds;
 
@@ -12,6 +13,7 @@ public class Region : MonoBehaviour {
 
 	void Awake () {
 		Clouds = new List<Cloud> (GetComponentsInChildren<Cloud> ());
+		InitialCloudsAmount = Clouds.Count;
 	}
 
 	public void DestroyCloud (Cloud cloud) {

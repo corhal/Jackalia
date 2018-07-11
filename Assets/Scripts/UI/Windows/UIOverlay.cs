@@ -34,6 +34,8 @@ public class UIOverlay : MonoBehaviour {
 	public AltFarmWindow AltFarmWindow;
 	public ArtifactsBuyPopUp ArtifactsBuyPopUp;
 	public ShipCatalogWindow ShipCatalogWindow;
+	public RegionPopUp RegionPopUp;
+	public ShipWindow ShipWindow;
 
 	public GameObject MapNode;
 	public List<Button> UseArtifactButtons;
@@ -218,6 +220,23 @@ public class UIOverlay : MonoBehaviour {
 
 	public void OpenShipCatalogWindow () {
 		ShipCatalogWindow.Open ();
+		AdventureWindow.Close ();
+		AdventureSelectionWindow.Close ();
+		MyButtonsOverlay.Close ();
+		MyPopUp.Close ();
+	}
+
+	public void OpenShipWindow (ShipData ship) {
+		ShipWindow.Open (ship);
+		AdventureWindow.Close ();
+		AdventureSelectionWindow.Close ();
+		MyButtonsOverlay.Close ();
+		MyPopUp.Close ();
+	}
+
+	public void OpenRegionPopUp (Region region) {
+		RegionPopUp.Open (region);
+		ShipCatalogWindow.Close ();
 		AdventureWindow.Close ();
 		AdventureSelectionWindow.Close ();
 		MyButtonsOverlay.Close ();

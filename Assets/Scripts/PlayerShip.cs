@@ -59,6 +59,13 @@ public class PlayerShip : MonoBehaviour {
 
 	void BattleShip_OnDamageTaken (BattleShip sender, int amount) {
 		ShowFlyingText ("-" + amount + " HP", Color.red);
+
+		if (sender.HP <= 0) {
+			SelectableTile portalTile = Board.Instance.FindTileWithPOIKind (POIkind.Portal);
+			MoveToTile (portalTile, false, true);
+			ShowFlyingText (("-" + 3), Color.red);
+			Player.Instance.Energy -= 3;
+		}
 	}
 
 	void Mover_OnFinishedMoving (MoveOnClick sender) {
@@ -110,6 +117,10 @@ public class PlayerShip : MonoBehaviour {
 			RewardChestsCapacity++;
 			CargoSlider.maxValue = RewardChestsCapacity;
 		}
+
+		BattleShip.HP = Player.Instance.CurrentShipData.HP;
+		BattleShip.Attack = Player.Instance.CurrentShipData.Attack;
+		BattleShip.AttackSpeed = Player.Instance.CurrentShipData.AttackSpeed;
 	}
 
 	void Update () {

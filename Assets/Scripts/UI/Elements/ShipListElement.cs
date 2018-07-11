@@ -31,4 +31,8 @@ public class ShipListElement : MonoBehaviour {
 		UIOverlay.Instance.ShipCatalogWindow.Close ();
 		UIOverlay.Instance.OpenShipCatalogWindow ();
 	}
+
+	public void OpenInfo () {
+		UIOverlay.Instance.OpenShipWindow (ShipData);
+	}
 }
