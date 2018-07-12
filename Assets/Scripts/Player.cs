@@ -112,6 +112,7 @@ public class Player : MonoBehaviour {
 		foreach (var region in GameManager.Instance.Regions) {
 			RegionCloudCounts.Add (region.Name, region.Clouds.Count);
 		}
+		Artifacts = CurrentShipData.Artifacts;
 	}
 
 	public void UseArtifact (int index) {

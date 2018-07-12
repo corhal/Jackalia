@@ -111,6 +111,21 @@ public class Selectable : MonoBehaviour {
 				}
 			}
 
+
+				
+			if (Player.Instance.ActiveArtifact.Name == "Bash" && Player.Instance.ActiveArtifact.IsActivated) {
+				foreach (var enemyShip in GameManager.Instance.EnemyShips) {
+					if (enemyShip.CurrentTile == (this as SelectableTile)) {
+						enemyShip.MoveRandomly (1.0f);
+						PlayerShip.Instance.ShowFlyingText ("Bash!", Color.green);
+					}
+				}
+				// (this as SelectableTile).StopParticles ();
+				Player.Instance.ActiveArtifact.Use ();
+				return;
+			}
+
+
 			if (Player.Instance.ActiveArtifact.Name == "Scry" && Player.Instance.ActiveArtifact.IsActivated) {
 				(this as SelectableTile).StopParticles ();
 				Player.Instance.ActiveArtifact.Use ();

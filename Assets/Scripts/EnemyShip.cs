@@ -46,7 +46,7 @@ public class EnemyShip : MonoBehaviour {
 	}
 
 	void PlayerShip_Instance_OnPlayerTurn (PlayerShip sender) {
-		MoveRandomly ();
+		MoveRandomly (0.5f);
 	}
 
 	void Mover_OnFinishedMoving (MoveOnClick sender) {
@@ -140,9 +140,9 @@ public class EnemyShip : MonoBehaviour {
 		PlayerShip.Instance.OnPlayerTurn -= PlayerShip_Instance_OnPlayerTurn;
 	}
 
-	public void MoveRandomly () {
+	public void MoveRandomly (float chance) {
 		float coinToss = Random.Range (0.0f, 1.0f);
-		if (coinToss >= 0.5f) {
+		if (coinToss <= chance) {
 			int index = Random.Range (0, CurrentTile.Neighbors.Count);
 			MoveToTile (CurrentTile.Neighbors [index], false, false);
 		}

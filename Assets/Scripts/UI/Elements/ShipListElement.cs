@@ -15,7 +15,8 @@ public class ShipListElement : MonoBehaviour {
 	public ShipData ShipData;
 
 	public void UnlockShip () {
-		if (Player.Instance.Gold < ShipData.GoldToUnlock) {
+		UIOverlay.Instance.OpenShipWindow (ShipData);
+		/*if (Player.Instance.Gold < ShipData.GoldToUnlock) {
 			UIOverlay.Instance.OpenPopUp ("Not enough gold!");
 			return;
 		}
@@ -23,11 +24,12 @@ public class ShipListElement : MonoBehaviour {
 		Player.Instance.GiveItems (new Dictionary<string, int> () { { ShipData.Name, ShipData.CardsToUnlock } });
 		ShipData.IsUnlocked = true;
 		UIOverlay.Instance.ShipCatalogWindow.Close ();
-		UIOverlay.Instance.OpenShipCatalogWindow ();
+		UIOverlay.Instance.OpenShipCatalogWindow ();*/
 	}
 
 	public void ChooseShip () {
 		Player.Instance.CurrentShipData = ShipData;
+		Player.Instance.Artifacts = ShipData.Artifacts;
 		UIOverlay.Instance.ShipCatalogWindow.Close ();
 		UIOverlay.Instance.OpenShipCatalogWindow ();
 	}

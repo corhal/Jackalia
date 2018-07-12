@@ -30,6 +30,15 @@ public class Obstacle : PointOfInterest {
 
 			PlayerShip.Instance.ShowFlyingText (("-" + AdditionalRequiredEnergy), Color.red);
 			Player.Instance.Energy = Player.Instance.Energy - AdditionalRequiredEnergy;
+
+			if (Player.Instance.CurrentShipData.Special == "Crush" && Player.Instance.CurrentShipData.IsSpecialReady) {
+				Player.Instance.CurrentShipData.UseSpecial ();
+				Destroy (gameObject);
+				//PlayerShip.Instance.MoveToTile (Tile, false, false);
+				// PlayerShip.Instance.FallBack (false);
+				PlayerShip.Instance.ShowFlyingText ("Crush!", Color.green);
+				//return;
+			}
 		}
 	}
 }

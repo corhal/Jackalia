@@ -115,6 +115,7 @@ public class Board : MonoBehaviour {
 					enemyShipObject.GetComponent<EnemyShip> ().CurrentTile = tile.GetComponent<SelectableTile> ();
 					enemyShipObject.transform.position = new Vector3 (tile.transform.position.x, tile.transform.position.y, 0);
 					enemyShipsCounter++;
+					GameManager.Instance.EnemyShips.Add (enemyShipObject.GetComponent<EnemyShip> ());
 				}
 
 				counter++;

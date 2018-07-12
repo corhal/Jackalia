@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour {
 	public bool CameraDragged;
 	public List<Region> Regions;
 
+	public List<EnemyShip> EnemyShips;
+
 	public void MoveMode () {
 		InMoveMode = true;
 		UIOverlay.Instance.CloseContextButtons (false);

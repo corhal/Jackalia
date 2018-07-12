@@ -115,8 +115,10 @@ public class DataBase : MonoBehaviour {
 		Player.Instance.TakeItems (new Dictionary<string, int> { { "Golden lockpick", 0 } });
 		Player.Instance.TakeItems (new Dictionary<string, int> { { "Exp", 0 } });
 
-		foreach (var artifact in Player.Instance.Artifacts) {
-			Player.Instance.TakeItems (new Dictionary<string, int> { { artifact.Name, 2 } });
+		foreach (var shipData in Player.Instance.ShipDatas) {
+			foreach (var artifact in shipData.Artifacts) {
+				Player.Instance.TakeItems (new Dictionary<string, int> { { artifact.Name, 2 } });
+			}
 		}
 		/*Player.Instance.TakeItems (new Dictionary<string, int> { { "Small healing potion", 2 } });
 		Player.Instance.TakeItems (new Dictionary<string, int> { { "Medium healing potion", 0 } });

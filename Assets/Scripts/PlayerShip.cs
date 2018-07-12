@@ -80,10 +80,6 @@ public class PlayerShip : MonoBehaviour {
 			return;
 		}
 		if (CaughtEnemyShip != null) {
-			//SelectableTile portalTile = Board.Instance.FindTileWithPOIKind (POIkind.Portal);
-			//CaughtPlayerShip.MoveToTile (portalTile, false, true);
-			//CaughtPlayerShip.ShowFlyingText (("-" + EnergyDamage), Color.red);
-			//Player.Instance.Energy -= EnergyDamage;
 			InitialParticlesPosition = ShootParticles.gameObject.transform.position;
 			CaughtEnemyShip.InitialParticlesPosition = CaughtEnemyShip.ShootParticles.gameObject.transform.position;
 			BattleShip.Target = CaughtEnemyShip.BattleShip;
