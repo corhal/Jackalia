@@ -20,6 +20,7 @@ public class EnemyShip : MonoBehaviour {
 
 	public GameObject FlyingTextPrefab;
 
+	public ShipData ShipData;
 	public BattleShip BattleShip;
 	public ParticleSystem ShootParticles;
 	public Vector3 InitialParticlesPosition;
@@ -62,10 +63,13 @@ public class EnemyShip : MonoBehaviour {
 			//CaughtPlayerShip.MoveToTile (portalTile, false, true);
 			//CaughtPlayerShip.ShowFlyingText (("-" + EnergyDamage), Color.red);
 			//Player.Instance.Energy -= EnergyDamage;
-			InitialParticlesPosition = ShootParticles.gameObject.transform.position;
-			CaughtPlayerShip.InitialParticlesPosition = CaughtPlayerShip.ShootParticles.gameObject.transform.position;
+
+			// InitialParticlesPosition = ShootParticles.gameObject.transform.position;
+			// CaughtPlayerShip.InitialParticlesPosition = CaughtPlayerShip.ShootParticles.gameObject.transform.position;
+
 			BattleShip.Target = CaughtPlayerShip.BattleShip;
 			CaughtPlayerShip.BattleShip.Target = BattleShip;
+			UIOverlay.Instance.OpenBattleWindow (CaughtPlayerShip.BattleShip, BattleShip);
 		}
 	}
 
@@ -79,10 +83,14 @@ public class EnemyShip : MonoBehaviour {
 			}
 		}
 		InitialParticlesPosition = ShootParticles.gameObject.transform.position;
+
+		BattleShip.ShipData = ShipData;
+		BattleShip.MaxHP = ShipData.HP;
+		BattleShip.HP = ShipData.HP;
 	}
 
 	void Update () {
-		BattleShip.Tick (Time.deltaTime);
+		// BattleShip.Tick (Time.deltaTime);
 	}
 
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through

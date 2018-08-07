@@ -5,9 +5,15 @@ using UnityEngine;
 [System.Serializable]
 public class BattleShip {
 
+	public ShipData ShipData;
+
+	public int MaxHP;
 	public int HP;
 	public int Attack;
 	public float AttackSpeed;
+
+	public int AttacksCount;
+	public int BlocksCount;
 
 	public BattleShip Target;
 

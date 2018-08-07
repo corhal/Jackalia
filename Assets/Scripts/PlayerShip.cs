@@ -80,10 +80,11 @@ public class PlayerShip : MonoBehaviour {
 			return;
 		}
 		if (CaughtEnemyShip != null) {
-			InitialParticlesPosition = ShootParticles.gameObject.transform.position;
-			CaughtEnemyShip.InitialParticlesPosition = CaughtEnemyShip.ShootParticles.gameObject.transform.position;
+			// InitialParticlesPosition = ShootParticles.gameObject.transform.position;
+			// CaughtEnemyShip.InitialParticlesPosition = CaughtEnemyShip.ShootParticles.gameObject.transform.position;
 			BattleShip.Target = CaughtEnemyShip.BattleShip;
 			CaughtEnemyShip.BattleShip.Target = BattleShip;
+			UIOverlay.Instance.OpenBattleWindow (BattleShip, CaughtEnemyShip.BattleShip);
 		}
 	}
 
@@ -114,13 +115,15 @@ public class PlayerShip : MonoBehaviour {
 			CargoSlider.maxValue = RewardChestsCapacity;
 		}
 
+		BattleShip.ShipData = Player.Instance.CurrentShipData;
+		BattleShip.MaxHP = Player.Instance.CurrentShipData.HP;
 		BattleShip.HP = Player.Instance.CurrentShipData.HP;
 		BattleShip.Attack = Player.Instance.CurrentShipData.Attack;
 		BattleShip.AttackSpeed = Player.Instance.CurrentShipData.AttackSpeed;
 	}
 
 	void Update () {
-		BattleShip.Tick (Time.deltaTime);
+		// BattleShip.Tick (Time.deltaTime);
 	}
 
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through
