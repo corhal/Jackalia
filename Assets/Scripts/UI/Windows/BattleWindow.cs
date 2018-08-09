@@ -7,8 +7,14 @@ public class BattleWindow : MonoBehaviour {
 
 	public GameObject Window;
 
+	public Sprite AttackSprite;
+	public Sprite DefendSprite;
+
 	public BattleCharBlock PlayerBlock;
 	public BattleCharBlock EnemyBlock;
+
+	public BattleCharBlock AttackingCharBlock;
+	public BattleCharBlock DefendingCharBlock;
 
 	public BattleShip AttackingChar;
 	public BattleShip DefendingChar;
@@ -26,13 +32,22 @@ public class BattleWindow : MonoBehaviour {
 	public void Open (BattleShip playerChar, BattleShip enemyChar) {
 		Window.SetActive (true);
 		PlayerBlock.SetCharacter (playerChar);
+		PlayerBlock.ToggleTargets (false);
 		EnemyBlock.SetCharacter (enemyChar);
 
 		PlayerChar = playerChar;
 		AttackingChar = PlayerChar;
+		AttackingCharBlock = PlayerBlock;
 
 		EnemyChar = enemyChar;
 		DefendingChar = EnemyChar;
+		DefendingCharBlock = EnemyBlock;
+
+		PlayerBlock.ToggleAttackIcons (isPlayerTurn);
+		PlayerBlock.ToggleDefenseIcons (!isPlayerTurn);
+
+		EnemyBlock.ToggleAttackIcons (!isPlayerTurn);
+		EnemyBlock.ToggleDefenseIcons (isPlayerTurn);
 
 		EnemyDefend ();
 	}
@@ -58,6 +73,9 @@ public class BattleWindow : MonoBehaviour {
 			break;
 		}
 
+		DefendingCharBlock.Targets [index].sprite = AttackSprite;
+		AttackingCharBlock.AttackIcons [index].color = new Color (1.0f, 1.0f, 1.0f, 0.5f);
+
 		if (AttackingChar.AttacksCount == currentAttacksCounter) {
 			EndTurn ();
 		}
@@ -78,6 +96,11 @@ public class BattleWindow : MonoBehaviour {
 			break;
 		default:
 			break;
+		}
+
+		if (DefendingChar != EnemyChar) {
+			DefendingCharBlock.Targets [index].sprite = DefendSprite;
+			DefendingCharBlock.DefenseIcons [index].color = new Color (1.0f, 1.0f, 1.0f, 0.5f);
 		}
 
 		if (currentBlocksCounter == DefendingChar.BlocksCount && !isPlayerTurn) {
@@ -113,18 +136,46 @@ public class BattleWindow : MonoBehaviour {
 		EnemyChar.BlockedBodyParts.Clear ();
 		BodyPartsToAttack.Clear ();
 
+		if (DefendingChar.HP <= 0) {
+			Close ();
+			return;
+		}
+
 		isPlayerTurn = !isPlayerTurn;
 
 		BattleShip tempChar = AttackingChar;
 		AttackingChar = DefendingChar;
 		DefendingChar = tempChar;
 
+		BattleCharBlock tempBlock = AttackingCharBlock;
+		AttackingCharBlock = DefendingCharBlock;
+		DefendingCharBlock = tempBlock;
+
 		PlayerBlock.ToggleTargets (!isPlayerTurn);
 		EnemyBlock.ToggleTargets (isPlayerTurn);
+
+		PlayerBlock.ToggleAttackIcons (isPlayerTurn);
+		PlayerBlock.ToggleDefenseIcons (!isPlayerTurn);
+
+		EnemyBlock.ToggleAttackIcons (!isPlayerTurn);
+		EnemyBlock.ToggleDefenseIcons (isPlayerTurn);
 
 
 		if (isPlayerTurn) {
 			EnemyDefend ();
 		}
+
+		PlayerBlock.ResetTargets ();
+		EnemyBlock.ResetTargets ();
+	}
+
+	public void ShowFlyingText (string message, Color color) {
+		/*GameObject flyingTextObject = Instantiate (FlyingTextPrefab) as GameObject;
+		flyingTextObject.transform.SetParent (GetComponentInChildren<Canvas> ().transform);
+		flyingTextObject.transform.localScale = Vector3.one * 1.5f;
+		flyingTextObject.transform.position = new Vector3 (transform.position.x, transform.position.y + 0.5f, transform.position.z);
+		BJFlyingText flyingText = flyingTextObject.GetComponent<BJFlyingText> ();
+		flyingText.Label.color = color;
+		flyingText.Label.text = message;*/
 	}
 }

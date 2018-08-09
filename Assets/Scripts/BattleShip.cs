@@ -43,7 +43,7 @@ public class BattleShip {
 	}
 
 	public void AttackTarget (BattleShip target, BodyPart bodyPart) {
-		Target.TakeDamage (Attack, bodyPart);
+		target.TakeDamage (Attack, bodyPart);
 		if (OnAttackedTarget != null) {
 			OnAttackedTarget (this);
 		}
