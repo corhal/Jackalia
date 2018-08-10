@@ -53,12 +53,12 @@ public class PlayerShip : MonoBehaviour {
 	}
 
 	void BattleShip_OnAttackedTarget (BattleShip sender) {
-		ShootParticles.gameObject.transform.position = new Vector3 (InitialParticlesPosition.x + Random.Range (-0.5f, 0.5f), InitialParticlesPosition.y + Random.Range (-0.5f, 0.5f), InitialParticlesPosition.z);
-		ShootParticles.Play ();
+		//ShootParticles.gameObject.transform.position = new Vector3 (InitialParticlesPosition.x + Random.Range (-0.5f, 0.5f), InitialParticlesPosition.y + Random.Range (-0.5f, 0.5f), InitialParticlesPosition.z);
+		//ShootParticles.Play ();
 	}
 
-	void BattleShip_OnDamageTaken (BattleShip sender, int amount) {
-		ShowFlyingText ("-" + amount + " HP", Color.red);
+	void BattleShip_OnDamageTaken (BattleShip sender, BodyPart bodyPart, bool block, int amount) {
+		// ShowFlyingText ("-" + amount + " HP", Color.red);
 
 		if (sender.HP <= 0) {
 			SelectableTile portalTile = Board.Instance.FindTileWithPOIKind (POIkind.Portal);
@@ -120,6 +120,8 @@ public class PlayerShip : MonoBehaviour {
 		BattleShip.HP = Player.Instance.CurrentShipData.HP;
 		BattleShip.Attack = Player.Instance.CurrentShipData.Attack;
 		BattleShip.AttackSpeed = Player.Instance.CurrentShipData.AttackSpeed;
+		BattleShip.AttacksCount = Player.Instance.CurrentShipData.AttacksCount;
+		BattleShip.BlocksCount = Player.Instance.CurrentShipData.BlocksCount;
 	}
 
 	void Update () {

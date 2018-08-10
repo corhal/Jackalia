@@ -49,6 +49,9 @@ public class BattleWindow : MonoBehaviour {
 		EnemyBlock.ToggleAttackIcons (!isPlayerTurn);
 		EnemyBlock.ToggleDefenseIcons (isPlayerTurn);
 
+		PlayerBlock.OnMovementFinished += BattleBlock_OnMovementFinished;
+		EnemyBlock.OnMovementFinished += BattleBlock_OnMovementFinished;
+
 		EnemyDefend ();
 	}
 
@@ -77,7 +80,7 @@ public class BattleWindow : MonoBehaviour {
 		AttackingCharBlock.AttackIcons [index].color = new Color (1.0f, 1.0f, 1.0f, 0.5f);
 
 		if (AttackingChar.AttacksCount == currentAttacksCounter) {
-			EndTurn ();
+			PerformAttacks ();
 		}
 	}
 
@@ -122,12 +125,8 @@ public class BattleWindow : MonoBehaviour {
 	}
 
 	public void EndTurn () {
-		currentAttacksCounter = 0;
+		// currentAttacksCounter = 0;
 		currentBlocksCounter = 0;
-
-		foreach (var bodyPartToAttack in BodyPartsToAttack) {
-			AttackingChar.AttackTarget (DefendingChar, bodyPartToAttack);
-		}
 
 		PlayerBlock.UpdateInfo ();
 		EnemyBlock.UpdateInfo ();
@@ -167,6 +166,46 @@ public class BattleWindow : MonoBehaviour {
 
 		PlayerBlock.ResetTargets ();
 		EnemyBlock.ResetTargets ();
+	}
+
+	int secondaryCounter;
+	public void PerformAttacks () {
+		secondaryCounter = currentAttacksCounter * 2;
+
+		AttackingCharBlock.MoveToPoint (DefendingCharBlock.Targets [(int)BodyPartsToAttack [0]].transform.position);
+
+		/*foreach (var bodyPartToAttack in BodyPartsToAttack) {
+			AttackingChar.AttackTarget (DefendingChar, bodyPartToAttack);
+			currentAttacksCounter--;
+		}*/
+	}
+
+	void BattleBlock_OnMovementFinished (BattleCharBlock battleCharBlock) {
+		secondaryCounter--;
+		if (currentAttacksCounter != 0 && secondaryCounter % currentAttacksCounter == 0) {
+			currentAttacksCounter--;
+
+			if (currentAttacksCounter == 0) {
+				AttackingChar.AttackTarget (DefendingChar, BodyPartsToAttack[0]);
+				AttackingCharBlock.MoveToPoint (AttackingCharBlock.InitialPosition);
+				BodyPartsToAttack.RemoveAt (0);
+				// EndTurn ();
+				return;
+			}
+
+			BodyPartsToAttack.RemoveAt (0);
+				
+			AttackingCharBlock.MoveToPoint (DefendingCharBlock.Targets [(int)BodyPartsToAttack [0]].transform.position);
+
+		} else {
+			if (BodyPartsToAttack.Count == 0) {
+				EndTurn ();
+				return;
+			}
+			AttackingChar.AttackTarget (DefendingChar, BodyPartsToAttack[0]);
+			AttackingCharBlock.MoveToPoint (AttackingCharBlock.InitialPosition);
+			return;
+		}
 	}
 
 	public void ShowFlyingText (string message, Color color) {

@@ -34,16 +34,16 @@ public class EnemyShip : MonoBehaviour {
 		BattleShip.OnAttackedTarget += BattleShip_OnAttackedTarget;
 	}
 
-	void BattleShip_OnDamageTaken (BattleShip sender, int amount) {
-		ShowFlyingText ("-" + amount + " HP", Color.red);
+	void BattleShip_OnDamageTaken (BattleShip sender, BodyPart bodyPart, bool block, int amount) {
+		// ShowFlyingText ("-" + amount + " HP", Color.red);
 		if (sender.HP <= 0) {
 			Destroy (gameObject);
 		}
 	}
 
 	void BattleShip_OnAttackedTarget (BattleShip sender) {
-		ShootParticles.gameObject.transform.position = new Vector3 (InitialParticlesPosition.x + Random.Range (-0.5f, 0.5f), InitialParticlesPosition.y + Random.Range (-0.5f, 0.5f), InitialParticlesPosition.z);
-		ShootParticles.Play ();
+		//ShootParticles.gameObject.transform.position = new Vector3 (InitialParticlesPosition.x + Random.Range (-0.5f, 0.5f), InitialParticlesPosition.y + Random.Range (-0.5f, 0.5f), InitialParticlesPosition.z);
+		// ShootParticles.Play ();
 	}
 
 	void PlayerShip_Instance_OnPlayerTurn (PlayerShip sender) {
@@ -146,6 +146,8 @@ public class EnemyShip : MonoBehaviour {
 	void OnDestroy () {
 		mover.OnFinishedMoving -= Mover_OnFinishedMoving;
 		PlayerShip.Instance.OnPlayerTurn -= PlayerShip_Instance_OnPlayerTurn;
+		BattleShip.OnDamageTaken -= BattleShip_OnDamageTaken;
+		BattleShip.OnAttackedTarget -= BattleShip_OnAttackedTarget;
 	}
 
 	public void MoveRandomly (float chance) {

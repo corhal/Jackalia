@@ -28,7 +28,7 @@ public class BattleShip {
 
 	float timer;
 
-	public delegate void DamageTaken (BattleShip sender, int amount);
+	public delegate void DamageTaken (BattleShip sender, BodyPart bodyPart, bool block, int amount);
 	public event DamageTaken OnDamageTaken; 
 
 	public delegate void AttackedTarget (BattleShip sender);
@@ -50,13 +50,15 @@ public class BattleShip {
 	}
 
 	public void TakeDamage (int amount, BodyPart bodyPart) {
+		bool block = false;
 		if (BlockedBodyParts.Contains(bodyPart)) {
 			Debug.Log ("Blocked " + (int)(amount * (ArmorPercent / 100.0f)) + " damage!");
 			amount -= (int)(amount * (ArmorPercent / 100.0f));
+			block = true;
 		}
 		HP -= amount;
 		if (OnDamageTaken != null) {
-			OnDamageTaken (this, amount);
+			OnDamageTaken (this, bodyPart, block, amount);
 		}
 	}
 }

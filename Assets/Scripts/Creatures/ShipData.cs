@@ -28,6 +28,9 @@ public class ShipData {
 
 	public List<Artifact> Artifacts;
 
+	public int AttacksCount;
+	public int BlocksCount;
+
 	public void TickSpecialCooldown () {
 		if (SpecialCurrentCooldown > 0) {
 			SpecialCurrentCooldown--;
